@@ -4,13 +4,13 @@
 	<head>
 		<meta charset="UTF-8">
 
-		<script src="js/jquery.js"></script>
-		<script src="js/js.cookie.js"></script>
+		<script src="../js/jquery.js"></script>
+		<script src="../js/js.cookie.js"></script>
 
-		<script src="js/i18next.min.js"></script>
+		<script src="../js/i18next.min.js"></script>
 
-		<script src="locale/locale_ru.js"></script>
-		<script src="locale/locale_ua.js"></script>
+		<script src="../locale/locale_ru.js"></script>
+		<script src="../locale/locale_ua.js"></script>
 		
 		<script type="text/javascript">
 			{
@@ -54,26 +54,26 @@
 
 		<title data-i18n="UKR 3W"></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="css/dc.css"/>
+		<link rel="stylesheet" href="../css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="../css/dc.css"/>
 
-		<script src="js/bootstrap.js"></script>
+		<script src="../js/bootstrap.js"></script>
 
-		<script src="js/d3.min.js"></script>
+		<script src="../js/d3.min.js"></script>
 
-		<script src="js/crossfilter.js"></script>
-		<script src="js/dc.js"></script>
+		<script src="../js/crossfilter.js"></script>
+		<script src="../js/dc.js"></script>
 
-		<script src="js/Blob.js"></script>
-		<script src="js/FileSaver.js"></script>
+		<script src="../js/Blob.js"></script>
+		<script src="../js/FileSaver.js"></script>
 
-		<link rel="stylesheet" href="css/leaflet.css" />
-		<script src="js/leaflet.js"></script>
+		<link rel="stylesheet" href="../css/leaflet.css" />
+		<script src="../js/leaflet.js"></script>
 
 
-		<script src="ukr_adm1b.js"></script>
-		<script src="NGCA_boundaries.js"></script>
-		<script src="data/Settlements_points_clear.js"></script>
+		<script src="../ukr_adm1b.js"></script>
+		<script src="../NGCA_boundaries.js"></script>
+		<script src="../data/Settlements_points_clear.js"></script>
 		<style>
 			body {
 				margin-bottom: 50px;
@@ -187,7 +187,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="." data-i18n="UKRAINE - 3W Dashboard - Education"></a>
+					<a class="navbar-brand" href="../" data-i18n="UKRAINE - 3W Dashboard - Education"></a>
 				</div><!--/.nav-collapse -->
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
@@ -215,7 +215,7 @@
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="index_oblast.html" data-i18n="Donetska-Luhanska"></a></li>
+								<li><a href="../index_oblast.html" data-i18n="Donetska-Luhanska"></a></li>
 							</ul>
 						</li>
 						
@@ -229,7 +229,7 @@
 					<ul class="nav navbar-nav navbar-right" >
 						<li><a href="#"> </a></li>
 						
-						<li ><a class="btn btn-primary btn-sm" id="data" href="index.html" data-i18n="Homepage"></a></li>
+						<li ><a class="btn btn-primary btn-sm" id="data" href="../index.html" data-i18n="Homepage"></a></li>
 					</ul>
 					<!--
 					<ul class="nav navbar-nav navbar-right">
@@ -242,8 +242,8 @@
 
 		<div class="container">
 			<ul class="nav nav-tabs">
-				<li role="presentation" class="active"><a href="index_education.html">GCA</a></li>
-				<li role="presentation"><a href="index_education_ngca.html">NGCA</a></li>
+				<li role="presentation"><a href="index_education.html">GCA</a></li>
+				<li role="presentation" class="active"><a href="index_education_ngca.html">NGCA</a></li>
 			</ul>
 			
 			<br>
@@ -297,10 +297,6 @@
 				<div class="col-md-4">
 					<h4 data-i18n="Filter by Status"></h4>
 					<div id="status" class="row"></div>
-				</div>
-				<div class="col-md-4">
-					<h4 data-i18n="Filter by Agency (Top 20)"></h4>
-					<div id="agency"></div>
 				</div>
 				<div class="col-md-4">
 				<h4 data-i18n="Filter by GCA / NGCA"></h4>
@@ -363,7 +359,7 @@
 			<div class="row">
 				<hr />
 				<h4 data-i18n="Developed by :"></h4>
-				<img  src="images/REACH_title10.png" alt="Reach Logo" width="250px"/><br>
+				<img  src="../images/REACH_title10.png" alt="Reach Logo" width="250px"/><br>
 			</div>
 		</div>
 	<script type="text/javascript">
@@ -385,7 +381,6 @@
 		filters[t('Oblast')] = []
 		filters[t('Start')] = []
 		filters[t('Status')] = []
-		filters[t('Agency')] = []
 
 
 		var $appliedFilters = $('#appliedFilters')
@@ -426,7 +421,6 @@
 			, benef_gender_chart = dc.barChart("#benefGender")
 			, startChart = dc.barChart("#date")
 			, dataasofChart = dc.barChart("#dataasof")
-			, agency_chart = dc.rowChart("#agency")
 			
 
 
@@ -448,7 +442,7 @@
 		}
 
 		var dataToLoad = {
-			data: {loader: d3.csv, url: 'data/Education_UKR_3W_MASTER_2016-04-13_with_coords.csv'}
+			data: {loader: d3.csv, url: 'data/Education_UKR_3W_MASTER_2016-04-13_with_coords_ngca.csv'}
 		}
 
 		load(dataToLoad, function(result, error) {
@@ -478,7 +472,6 @@
 			cf.oblast = cf.dimension(function(d) { return oblastByKOATUU[d['PCODE1']] ? oblastByKOATUU[d['PCODE1']].properties['NAME_LAT'] : d[' Oblast'] })
 			cf.oblastKOATUU = cf.dimension(function(d) { return d['PCODE1'] })
 
-			cf.agency = cf.dimension(function(d){ return d['Organization'] })
 			cf.start = cf.dimension(function(d) { return d.ddOpt })
 
 			cf.dataasof = cf.dimension(function(d) { return d.dateAsOfOpt })
@@ -486,8 +479,6 @@
 			
 			cf.status = cf.dimension(function(d){ return d['Status'] })
 
-			cf.agency = cf.dimension(function(d){ return d['Organization'] })
-			
 			cf.activity = cf.dimension(function(d){ return d['Activity'] })
 
 			cf.area = cf.dimension(function(d){ return d['Control area'] || t('Not specified') });
@@ -501,9 +492,6 @@
 			var activity = cf.activity.group();
 
 			var status = cf.status.group();
-
-			var agency = cf.agency.group()
-				.reduceCount(function(d) { return d['Organization'] })
 
 			var startGroup = cf.start.group().reduceCount()
 			
@@ -562,8 +550,6 @@
 			window.saveData = function() {
 				var header = [
 					'Day, Month, Year'
-					, 'Organization'
-					, 'Acronym'
 					, ' Oblast'
 					, 'PCODE1'
 					, 'Raion'
@@ -597,8 +583,6 @@
 				data = data.map(function(record) {
 					return [
 						record['Day, Month, Year']
-						, record['Organization']
-						, record['Acronym']
 						, record[' Oblast']
 						, record['PCODE1']
 						, record['Raion']
@@ -630,11 +614,11 @@
 
 				data.unshift(header)
 
-				var res = d3.tsv.formatRows(data)
+				var res = d3.csv.formatRows(data)
 
-				var blob = new Blob([res], {type: "text/tab-separated-values;charset=utf-8"})
+				var blob = new Blob([res], {type: "text/csv;charset=utf-8"})
 
-				saveAs(blob, 'ukraine-3w-education-dataset-' + (new Date()).getTime() + '.tsv')
+				saveAs(blob, 'ukraine-3w-education-dataset-' + (new Date()).getTime() + '.csv')
 			}
 
 
@@ -731,24 +715,6 @@
 				})
 				.xAxis().tickFormat()
 
-
-
-			agency_chart.width(300)
-				.height(450)
-				.margins({top: 10, right: 10, bottom: 40, left: 40})
-				.dimension(cf.agency)
-				.group(agency)
-				.elasticX(true)
-				.data(function(group) { return group.top(20) })
-				.colors(['#026CB6'])
-				.colorDomain([0,1])
-				.colorAccessor(function(d, i){return i%1;})
-				.on('filtered', function(chart, filter) {
-					var filters = {}
-					filters[t('Agency')] = agency_chart.filters()
-					updateFilters(filters)
-				})
-				.xAxis().ticks(4)
 
 
 			area_chart.width(300)
