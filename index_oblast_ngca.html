@@ -163,6 +163,9 @@
 				fill-opacity: .8;
 			}
 		</style>
+		<script src="js/bootstrap-tagsinput.min.js"></script>
+		<link rel="stylesheet" href="css/bootstrap-tagsinput.css">
+		<link rel="stylesheet" href="css/filters.css">
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse navbar-static-top navbar-main">
@@ -196,7 +199,7 @@
 								<!-- </ul> -->
 							<!-- </li> -->
 
-							<li class="dropdown" align= "left">
+							<!--<li class="dropdown" align= "left">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 									<span data-i18n="OBLAST"></span>
 									<span class="caret"></span>
@@ -204,7 +207,7 @@
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="index_oblast.html" data-i18n="Donetska-Luhanska"></a></li>
 								</ul>
-							</li>
+							</li>-->
 							
 							
 					</ul>
@@ -232,8 +235,11 @@
 
 
 			<ul class="nav nav-tabs">
-				<li role="presentation"><a href="index_oblast.html">GCA</a></li>
-				<li role="presentation" class="active"><a href="index_oblast_ngca.html">NGCA</a></li>
+
+				<li role="presentation"><a href="index.html">GCA</a></li>
+				<li role="presentation"><a href="index_oblast.html">Oblast GCA</a></li>
+				<li role="presentation" class="active"><a href="index_oblast_ngca.html">Oblast NGCA</a></li>
+
 			</ul>
 			
 			<br>
@@ -270,13 +276,14 @@
 					</p>
 				</div>
 			</div>
+
 			<div class="row">
+
 				<div class="col-md-12">
-					<div class="appliedfilters">
-						<div class="appliedfilters-mark" data-i18n="Currently data displayed for filters:"></div>
-						<ul id="appliedFilters"></ul>
-					</div>
+					<label for="filters">Currently data displayed for filters:</label>
+					<input id = "filters"  type="text" data-role="tagsinput"/>
 				</div>
+
 			</div>
 
 			<div class="row">
@@ -401,37 +408,6 @@
 		</div>
 
 		<script type="text/javascript">
-			var filters = {}
-			filters[t('Oblast')] = []
-			filters[t('Raion')] = []
-			filters[t('Raion (Donetsk)')] = []
-			filters[t('Raion (Luhansk)')] = []
-			filters[t('Status')] = []
-			filters[t('Cluster')] = []
-			filters[t('Area')] = []
-			filters[t('Activity')] = []
-			filters[t('Month')] = []
-			filters[t('Start')] = []
-
-			filters[t('Small Suboff Map')] = []
-			filters[t('Donor')] = []
-			filters[t('Benefhh')] = []
-			filters[t('Benefind')] = []
-
-			var $appliedFilters = $('#appliedFilters')
-			var updateFilters = function(filter) {
-				$.extend(filters, filter)
-				
-				var $fragment = $(document.createDocumentFragment())
-
-				for(var name in filters) {
-					if(filters[name] && filters[name].length > 0) {
-						$fragment.append('<li>' + name + ": " + filters[name].join(', ') + '</li>')
-					}
-				}
-
-				$appliedFilters.html($fragment)
-			}
 
 			var projection = d3.geo.mercator().center([39.4,48.9]).scale(6900)
 
@@ -1140,6 +1116,31 @@
 
 			})
 		</script>
+
+		<script type="text/javascript">
+			var Charts = {
+
+				'Oblast' : oblast_chart,
+				'Raion' : distmapChart,
+				'Raion (Donetsk)' : raion_chart,
+				'Raion (Luhansk)' : raion1_chart,
+				'Status' : status_chart,
+				'Cluster' : cluster_chart,
+				'Area' : area_chart,
+				'Activity' : activity_chart,
+				'Agency' : agency_chart,
+				'Partner' : partner_chart,
+				'Month' : datofChart,
+				'Start' : startChart,
+				'Small Suboff Map' : null,
+				'Donor' : null,
+				'Benefhh' : null,
+				'Benefind' : null
+			};
+		</script>
+
+		<script type="text/javascript" src="js/filtering.js"></script>
+
 		<script type="text/javascript" src="js/change.js"></script>
 	</body>
 </html>
