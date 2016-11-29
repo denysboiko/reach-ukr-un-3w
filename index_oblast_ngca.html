@@ -48,6 +48,7 @@
 						var $this = $(this)
 						$this.text(t($this.data('i18n')))
 					})
+					changeLang(window.lang);
 				})
 			}
 		</script>
@@ -178,22 +179,22 @@
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
 
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-									<span data-i18n="CLUSTER"></span>
-									<span class="caret"></span>
-								</a>
-								<ul class="dropdown-menu" role="menu">
+							<!-- <li class="dropdown"> -->
+								<!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> -->
+									<!-- <span data-i18n="CLUSTER"></span> -->
+									<!-- <span class="caret"></span> -->
+								<!-- </a> -->
+								<!-- <ul class="dropdown-menu" role="menu"> -->
 									<!-- <li><a href="index_shelter.html">SHELTER - NFI</a></li> -->
 									<!-- <li><a href="index_wash.html">WASH</a></li> -->
-									<li><a href="index_education.html" data-i18n="EDUCATION"></a></li>
+									<!-- <li><a href="index_education.html" data-i18n="EDUCATION"></a></li> -->
 									<!-- <li><a href="index_health.html">HEALTH & NUTRITION</a></li> -->
 									<!-- <li><a href="index_food.html">FOOD SECURITY</a></li> -->
 									<!-- <li><a href="index_logistic.html">LOGISTIC</a></li> -->
 									<!-- <li><a href="index_protection.html">PROTECTION</a></li> -->
 									<!-- <li><a href="index_livelihoods.html">LIVELIHOODS</a></li> -->
-								</ul>
-							</li>
+								<!-- </ul> -->
+							<!-- </li> -->
 
 							<li class="dropdown" align= "left">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -394,7 +395,8 @@
 				<h4 data-i18n="Developed by :"></h4>
 			</div>
 			<div class='row'>
-				<img class="inlinelogo"  src="images/REACH_title10.png" alt="Reach Logo" /><br>
+				<img class="inlinelogo"  src="images/REACH_title10.png" alt="Reach Logo" />
+				<img class="inlinelogo" src="images/ocha.png" alt="OCHA Logo" style="width:250px"/>
 			</div>
 		</div>
 
@@ -636,11 +638,11 @@
 
 					data.unshift(header)
 
-					var res = d3.tsv.formatRows(data)
+					var res = d3.csv.formatRows(data)
 
-					var blob = new Blob([res], {type: "text/tab-separated-values;charset=utf-8"})
+					var blob = new Blob([res], {type: "text/csv;charset=utf-8"})
 
-					saveAs(blob, 'ukraine-3w-oblast-dataset-' + (new Date()).getTime() + '.tsv')
+					saveAs(blob, 'ukraine-3w-oblast-dataset-' + (new Date()).getTime() + '.csv')
 				}
 
 
@@ -1138,5 +1140,6 @@
 
 			})
 		</script>
+		<script type="text/javascript" src="js/change.js"></script>
 	</body>
 </html>

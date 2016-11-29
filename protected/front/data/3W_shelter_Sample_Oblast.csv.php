@@ -5,7 +5,7 @@
 
 	$session = new Session();
 
-	if(!$session->user->is_authorized() || !$session->user->checkRole(['editor', 'admin'])) {
+	if(!$session->user->is_authorized() || !$session->user->checkRole(['allowed', 'admin'])) {
 		Framework::httpError(403);
 		exit(0);
 	}

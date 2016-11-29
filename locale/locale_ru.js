@@ -48,7 +48,7 @@ window.locale_ru = {
     "# of activities by type": "количество мероприятий по типу",
     "# of hh beneficiairies": "количество домохозяйств",
     "# of individuals beneficiaries": "количество получателей помощи",
-    "# of activities reported": "количество мероприятий сообщено",
+    "# of activities reported": "Количество указанных мероприятий",
     "Number of activities": "Количество мероприятий",
     "UKR 3W Oblast": "UKR 3W Область",
     "UKRAINE - 3W Dashboard - Oblast": "УКРАИНА -  Информационная доска \"КТО ГДЕ ЧТО делает\" - Область",

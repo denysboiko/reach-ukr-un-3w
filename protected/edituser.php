@@ -43,7 +43,7 @@
 		function init() {
 			$this->id = new HiddenField(['required' => false]);
 			$this->email = new EmailField(['label' => new Label(' Email*: '), 'required' => true]);
-			$this->role = new SelectField(['label' => new Label(' Role*: '), 'values' => ['admin' => 'Administrator', 'editor' => 'Editor', 'disabled' => 'Accuont disabled', 'unconfirmed' => 'Email not confirmed'], 'required' => true]);
+			$this->role = new SelectField(['label' => new Label(' Role*: '), 'values' => ['admin' => 'Administrator', 'allowed' => 'Access allowed', 'disabled' => 'Accuont disabled', 'unconfirmed' => 'Email not confirmed'], 'required' => true]);
 
 			$this->new_password = new PasswordField(['label' => new Label(' Password: '), 'required' => false ]);
 			$this->new_password_confirm = new PasswordField(['label' => new Label(' Confirmation: '), 'required' => false]);

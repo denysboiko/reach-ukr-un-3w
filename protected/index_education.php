@@ -5,7 +5,7 @@
 
 	$session = new Session();
 
-	if(!$session->user->is_authorized() || !$session->user->checkRole(['editor', 'admin'])) {
+	if(!$session->user->is_authorized() || !$session->user->checkRole(['allowed', 'admin'])) {
 		Framework::redirect('./login.php');
 		exit(0);
 	}
@@ -668,11 +668,11 @@
 
 				data.unshift(header)
 
-				var res = d3.tsv.formatRows(data)
+				var res = d3.csv.formatRows(data)
 
-				var blob = new Blob([res], {type: "text/tab-separated-values;charset=utf-8"})
+				var blob = new Blob([res], {type: "text/csv;charset=utf-8"})
 
-				saveAs(blob, 'ukraine-3w-education-dataset-' + (new Date()).getTime() + '.tsv')
+				saveAs(blob, 'ukraine-3w-education-dataset-' + (new Date()).getTime() + '.csv')
 			}
 
 

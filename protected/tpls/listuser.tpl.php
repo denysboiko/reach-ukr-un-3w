@@ -29,7 +29,7 @@
 					<?php switch($value['role']) :
 						case 'admin' : ?>
 							<span class="label label-danger"><?= $value['role'] ?></span>
-						<?php break; case 'editor' : ?>
+						<?php break; case 'allowed' : ?>
 							<span class="label label-warning"><?= $value['role'] ?></span>
 						<?php break; case 'disabled' : ?>
 							<span class="label label-default"><?= $value['role'] ?></span>

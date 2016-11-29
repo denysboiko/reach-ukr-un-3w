@@ -18,17 +18,17 @@
 					en: {}
 					, ru: { translation: window.locale_ru }
 					, ua: { translation: window.locale_ua }
-				}
+				};
 
-				var cookiePath = window.location.pathname
-				cookiePath = cookiePath.substr(0, cookiePath.lastIndexOf('/') + 1)
+				var cookiePath = window.location.pathname;
+				cookiePath = cookiePath.substr(0, cookiePath.lastIndexOf('/') + 1);
 
-				window.lang = Cookies.get('lang', { path: cookiePath })
+				window.lang = Cookies.get('lang', { path: cookiePath });
 
 				window.setLang = function(newLang) {
-					window.lang = newLang
+					window.lang = newLang;
 					Cookies.set('lang', window.lang, { path: cookiePath })
-				}
+				};
 
 				if(!window.lang) {
 					setLang('en')
@@ -43,12 +43,17 @@
 				})
 				window.t = function() { return i18next.t.apply(i18next, arguments) }
 
+
+
 				$(function(){
 					$('[data-i18n]').each(function() {
-						var $this = $(this)
+						var $this = $(this);
 						$this.text(t($this.data('i18n')))
-					})
+					});
+					changeLang(window.lang);
 				})
+				
+
 			}
 		</script>
 
@@ -73,29 +78,37 @@
 				margin-bottom: 50px;
 				background-color: #ffffff;
 			}
+
 			div {
 				color: #026cb6;
 			}
+
 			h7 {
 				color: #58585a;
 			}
+
 			h8 {
 				color: #58585a;
 				font-size: 40px;
 			}
+
 			.appliedfilters {
+
 				background: #f1f1f1;
 				padding: 5px 5px 0 0;
 				color: #58585a;
 				vertical-align: baseline;
 				margin-bottom: 10px;
+
 			}
+
 			.appliedfilters .appliedfilters-mark {
 				color: #58585a;
 				display: inline-block;
 				padding: 5px 0;
 				margin: 0 0 5px 5px;
 			}
+
 			.appliedfilters ul {
 				display: inline-block;
 				list-style-type: none;
@@ -147,11 +160,51 @@
 				line-height: 20px;
 				padding: 15px;
 			}
+
+			.bootstrap-tagsinput {
+				width: 100%
+			}
+
+			label {
+				color: #0f0f0f;
+			}
+			.bootstrap-tagsinput input {
+				width: 0 !important;
+			}
+
+			.bootstrap-tagsinput .disabled-tag {
+				color: #0f0f0f !important;
+				background-color: #ffffff;
+			}
+			.highlight {
+				background-color: yellow !important;
+			}
+
+			.tag {
+				background-color: #5bc0de;
+			}
+			.tag {
+				display: inline;
+				padding: .2em .6em .3em;
+				font-size: 75%;
+				font-weight: bold;
+				line-height: 1;
+				color: #fff;
+				text-align: center;
+				white-space: nowrap;
+				vertical-align: baseline;
+				border-radius: .25em;
+			}
 		</style>
+
+
+		<script src="js/bootstrap-tagsinput.min.js"></script>
+		<link rel="stylesheet" href="css/bootstrap-tagsinput.css">
+		<!--<script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>-->
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse navbar-static-top navbar-main">
-			<div class="container">
+			<div class="container container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 						<span class="sr-only" data-i18n="Toggle navigation"></span>
@@ -163,23 +216,15 @@
 				</div><!--/.nav-collapse -->
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
-						<li class="dropdown">
+						<!--<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 								<span data-i18n="CLUSTER"></span>
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu" role="menu">
-								
-								<!-- <li><a href="index_shelter.html">SHELTER - NFI</a></li> -->
-								<!-- <li><a href="index_wash.html">WASH</a></li> -->
 								<li><a href="index_education.html" data-i18n="EDUCATION"></a></li>
-								<!-- <li><a href="index_health.html">HEALTH & NUTRITION</a></li> -->
-								<!-- <li><a href="index_food.html">FOOD SECURITY</a></li> -->
-								<!-- <li><a href="index_logistic.html">LOGISTIC</a></li> -->
-								<!-- <li><a href="index_protection.html">PROTECTION</a></li> -->
-								<!-- <li><a href="index_livelihoods.html">LIVELIHOODS</a></li> -->
 							</ul>
-						</li>
+						</li>-->
 						
 						<li class="dropdown" align= "left">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -220,7 +265,7 @@
 
 			<ul class="nav nav-tabs">
 				<li role="presentation" class="active"><a href="index.html">GCA</a></li>
-				<li role="presentation"><a href="index_ngca.html">NGCA</a></li>
+				<!-- <li role="presentation"><a href="index_ngca.html">NGCA</a></li> -->
 			</ul>
 			
 			<br>
@@ -228,7 +273,8 @@
 			<div class="row" align="justify">
 				<div class="col-md-12" >
 					<h7><p data-i18n="In response to the humanitarian crisis in Ukraine countless volunteers, as well as many international humanitarian actors, including the United Nations system, national and international NGOs, and other international organizations, are engaged in the humanitarian relief effort. In December 2014 the cluster system was activated, with 8 clusters engaging in life-saving activities throughout the country. This 3W (WHO is doing WHAT WHERE) captures the presence of partners currently on the ground in each oblast.">
-					</p></h7>
+					</p>
+					</h7>
 				</div>
 			</div>
 			<div class="row">
@@ -236,16 +282,17 @@
 					<h4 data-i18n="Data from January 2016 to February 2016"></h4>
 				</div>
 				<div id="count-info" class="col-md-5" align="right">
+
 					<h4>
 						<span class="filter-count"></span>
 						<span data-i18n="Activities selected of"></span>
 						<span class="total-count"></span></h4>
 				</div>
 				<div class="col-md-1" align="right">
-					<a class="reset btn btn-primary btn-sm" id="reset" href="javascript:dc.filterAll();dc.redrawAll();" data-i18n="Reset All"></a>
+					<a class="reset btn btn-primary btn-sm" id="reset" href="javascript:ResetAll()" data-i18n="Reset All"></a>
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-md-12" >
 					<p>
@@ -254,15 +301,44 @@
 				</div>
 			</div>
 			<div class="row">
+
 				<div class="col-md-12">
-					<div class="appliedfilters">
+					<label for="filters">Currently data displayed for filters:</label>
+					<input id = "filters"  type="text" data-role="tagsinput"/>
+				</div>
+
+				<script>
+
+
+					/*
+
+					elt.tagsinput('add', { "value": 1 , "text": "Amsterdam"   , "continent": "Europe"    });
+					elt.tagsinput('add', { "value": 4 , "text": "Washington"  , "continent": "America"   });
+					elt.tagsinput('add', { "value": 7 , "text": "Sydney"      , "continent": "Australia" });
+					elt.tagsinput('add', { "value": 10, "text": "Beijing"     , "continent": "Asia"      });
+					elt.tagsinput('add', { "value": 13, "text": "Cairo"       , "continent": "Africa"    });
+
+					*/
+
+				</script>
+
+
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+
+<!--					<div class="appliedfilters">
 						<div class="appliedfilters-mark" data-i18n="Currently data displayed for filters:"></div>
 						<ul id="appliedFilters"></ul>
-					</div>
+					</div>-->
+
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-8" id="map"></div>
+				<div class="col-md-8" id="map">
+
+				</div>
 
 				<div class="col-md-4" id="oblast">
 					<h4 data-i18n="Filter by Oblast"></h4>
@@ -288,11 +364,14 @@
 				<div id="count-info" class="col-md-5" align="right">
 					<h4><span class="filter-count"></span><span class="total-count"></span> </h4>
 				</div>
+
 				<div class="col-md-1" align="right">
 					<a class="reset btn btn-primary btn-sm" id="reset" href="javascript:dc.filterAll();dc.redrawAll();" data-i18n="Reset All"></a>
 				</div>
+
 			</div>
 			<div class="row">
+
 				<div class="col-md-4">
 					<h4 data-i18n="Filter by Activity"></h4>
 					<div id="activity" class="col-md-12"></div>
@@ -369,6 +448,7 @@
 					<div id="temp" class="col-md-12"></div>
 				</div>
 			</div>
+
 			<!--
 			<div class="row">
 				<div class="col-md-6">
@@ -377,6 +457,7 @@
 				</div>
 			</div>
 			-->
+
 			<div class="row">
 				<h8>_________________________________________________</h8> 
 			</div>
@@ -384,11 +465,15 @@
 				<h4 data-i18n="Developed by :"></h4>
 			</div>
 			<div class='row'>
-				<img  src="images/REACH_title10.png" alt="Reach Logo" width="250px"/><br>
+				<img  src="images/REACH_title10.png" alt="Reach Logo" width="250px"/>
+				<img  src="images/ocha.png" alt="OCHA Logo" width="390px"/>
 			</div>
 		</div>
+
 	<script type="text/javascript">
-		var filters = {}
+
+		var filters = {};
+
 		filters[t('Data As Of')] = []
 		filters[t('Activity')] = []
 		filters[t('Agency')] = []
@@ -400,25 +485,87 @@
 		filters[t('Start')] = []
 		filters[t('Status')] = []
 
-		var $appliedFilters = $('#appliedFilters')
+		//var $appliedFilters = $('#appliedFilters')
+
+		var elt = $('#filters');
+
+		elt.tagsinput({
+
+			itemValue: 'value',
+			itemText: 'text',
+			itemFilter: 'filter',
+			itemFilterID: 'filter',
+			itemOrder: 'order',
+			tagClass: function(item) {
+				return item.order == 1 ? 'first-tag' + item.filterID : null;
+			}
+		});
+
+
 		var updateFilters = function(filter) {
-			$.extend(filters, filter)
-			
-			var $fragment = $(document.createDocumentFragment())
+
+			$.extend(filters, filter);
+
+			var $fragment = $(document.createDocumentFragment());
+
+
+			elt.tagsinput('removeAll');
+
+			//console.log("UpdateFilters run , there's "+start+" items")
+
+
+			var fid = 0
 
 			for(var name in filters) {
+
+				var start = elt.tagsinput('items').length;
+
+				fid = fid + 1;
+
 				if(filters[name] && filters[name].length > 0) {
-					$fragment.append('<li>' + name + ": " + filters[name].join(', ') + '</li>')
+
+					var delimeter = '<span class="tag label disabled-tag">' + name + ': </span>'
+
+					/*$('.bootstrap-tagsinput').prepend(delimeter);*/
+
+					//$fragment.append('<li>' + name + ": " + filters[name].join(', ') + '</li>');
+
+					for (i = 0; i < filters[name].length; i++) {
+
+						elt.tagsinput('add',
+								{
+									"value": start + i + 1 ,
+									"order" : i + 1,
+									"text": filters[name][i],
+									"filter": name,
+									"filterID": fid,
+									"continent": "Europe"
+								}
+						);
+
+					}
+
+					$(delimeter).insertBefore('.first-tag'+fid);
+
+
+
+					/*console.log(
+
+					);*/
+
+
+					//console.log(elt.tagsinput('items'));
+
 				}
 			}
 
-			$appliedFilters.html($fragment)
-		}
+			//$appliedFilters.html($fragment)
+
+		};
+
 
 		var projection = d3.geo.mercator().center([36,48]).scale(1900)
-
-
-
+		
 		var mapChart = dc.geoChoroplethChart("#map")
 			//, smallsuboffmapChart = dc.geoChoroplethChart("#map1")
 			//, distmapChart = dc.geoChoroplethChart("#map1")
@@ -436,7 +583,7 @@
 			, benefhh_chart = dc.rowChart("#benefhh")
 			, benefind_chart = dc.rowChart("#benefind")
 			, startChart = dc.barChart("#date")
-			, dataasofChart = dc.barChart("#dataasof")
+			, dataasofChart = dc.barChart("#dataasof");
 
 
 		var load = function(dataToLoad, callback) {
@@ -454,12 +601,12 @@
 					callback(dataToLoad)
 				})
 			})
-		}
+		};
 
 		var dataToLoad = {
-			data: {loader: d3.csv, url: 'data/Master_Table_Data_January_February_2016_v2.csv'}
+			data: {loader: d3.csv, url: 'data/Master_Table_Data_August_2016.csv'}
 			//, NGCABoundaries: {loader: d3.json, url: 'NGCA_boundaries.js'}
-		}
+		};
 
 		load(dataToLoad, function(result) {
 			var data = result.data.data
@@ -489,7 +636,7 @@
 			// 	, id1400000000: "Donetska Oblast"
 			// 	, id1800000000: "Zhytomyrska Oblast"
 			// 	, id2100000000: "Zakarpatska Oblast"
-			// 	, id2300000000: "Zaporizska Oblast"
+			// 	, id2300000000: "Zaporizka Oblast"
 			// 	, id2600000000: "Ivano-Frankivska Oblast"
 			// 	, id3200000000: "Kyivska Oblast"
 			// 	, id3500000000: "Kirovohradska"
@@ -540,6 +687,7 @@
 
 			var oblast = cf.oblast.group()
 				.reduceCount(function(d) { return d['ADMIN1_NAME_ENG'] });
+
 			var cluster = cf.cluster.group()
 				.reduceCount(function(d) { return d['CLUSTER_ID'] }) // counts 
 			// var donor = cf.donor.group()
@@ -554,16 +702,22 @@
 			var partner = cf.partner.group()
 				.reduceCount(function(d) { return d['partner #1_name'] })
 			var activity = cf.activity.group();
+
 			var benefhh = cf.oblast.group()
 				.reduceSum(function(d) { return d['BENEF_HH'] })// sum
+
 			var benefind = cf.oblast.group()
 				.reduceSum(function(d) { return d['BENEF_IND'] })// sum
+
 			var status = cf.status.group();
 			//var raion = cf.raion.group();
+
 			var startGroup = cf.start.group()
 				.reduceCount(function(d) { return d['month'] })
+
 			var dataasofGroup = cf.dataasof.group()
 				.reduceCount(function(d) { return d['DATA_AS_OF'] })
+
 			//var A2014Group = cf.Annee2014.group();
 			//var A2015Group = cf.Annee2015.group();
 			
@@ -609,12 +763,15 @@
 
 				data.unshift(header)
 
-				var res = d3.tsv.formatRows(data)
+				var res = d3.csv.formatRows(data)
 
-				var blob = new Blob([res], {type: "text/tab-separated-values;charset=utf-8"})
+				var blob = new Blob([res], {type: "text/csv;charset=utf-8"})
 
-				saveAs(blob, 'ukraine-3w-dataset-' + (new Date()).getTime() + '.tsv')
+				saveAs(blob, 'ukraine-3w-dataset-' + (new Date()).getTime() + '.csv')
+
 			}
+
+
 
 
 			mapChart.width(700)
@@ -636,7 +793,7 @@
 				})
 				.overlayGeoJson(
 					adm1.features.filter(function(feature) {
-						// dont show Sevastopol and AR Krym in chart. It's drowind separately at the end of script.
+						// don't show Sevastopol and AR Krym in chart. It's drowind separately at the end of script.
 						return feature.properties.KOATUU != "8500000000" && feature.properties.KOATUU != "0100000000"
 					})
 					, "state"
@@ -646,10 +803,10 @@
 				)
 				.projection(projection)
 				.on('filtered', function(chart, filter) {
-					var filters = {}
-					filters[t('Map')] = mapChart.filters()
+					var filters = {};
+					filters[t('Map')] = mapChart.filters();
 					updateFilters(filters)
-				})
+				});
 
 
 			/*
@@ -694,6 +851,7 @@
 				.on('filtered', function(chart, filter) {
 					var filters = {}
 					filters[t('Cluster')] = cluster_chart.filters()
+						console.log(cluster_chart.filters())
 					updateFilters(filters)
 				})
 				.xAxis().ticks(4)
@@ -1078,7 +1236,7 @@
 					, {x: 15, y: 400, type: "label", width: 30, height: 14, spacing: 5, fill: "#084594", text:"> 4000"}
 					, {x: 15, y: 421, type: "divider", width: 110, height: 1, fill: "#cccccc"}
 					, {x: 15.5, y: 430.5, type: "label", width: 29, height: 13, spacing: 5, fill: "url('#diagonalHatch')", text:"NGCA", stroke: "#e01f22"}
-				]
+				];
 				
 
 				legend.selectAll("text")
@@ -1129,7 +1287,7 @@
 						.attr("fill", "none")
 						.attr("stroke", '#000000')
 						.attr("stroke-width", "1px")
-
+				change2region();
 			}
 
 			{
@@ -1153,6 +1311,102 @@
 			}
 
 		})
+
+
+		elt.on('itemRemoved', function(event) {
+
+			var filterRemoved = event.item.filter;
+			var textRemoved = event.item.text;
+
+			/*				console.log(event.item);
+
+			 console.log(cf.oblast)
+
+			 console.log(all)*/
+			/*dc.filterAll();
+			 */
+			/*var filters = {}*/
+
+			/*filters[t(filterRemoved)] = cluster_chart.filters();*/
+
+			var newfilters = [];
+
+			var Charts = {
+
+				'Data As Of' : dataasofChart,
+				'Activity': activity_chart,
+				'Agency': agency_chart,
+				'Area': area_chart,
+				'Cluster': cluster_chart,
+				'Map': mapChart,
+				'Oblast': oblast_chart,
+				'Partner': partner_chart,
+				'Start': startChart,
+				'Status': status_chart
+			};
+
+			j = 0;
+
+			for (i = 0; i < filters[filterRemoved].length; i++) {
+
+				j = j +1;
+
+				if (filters[filterRemoved][i] != textRemoved) {
+
+					newfilters.push(filters[filterRemoved][i]);
+
+				}
+			}
+
+			console.log(filters[filterRemoved]);
+
+			filters[filterRemoved] = newfilters;
+
+			/*console.log(newfilters);*/
+
+/*			console.log(filters[filterRemoved]);
+
+			console.log(filters);
+
+			updateFilters(filters);*/
+
+
+			/*this[Charts[filterRemoved]].filter(textRemoved);*/
+
+			Charts[filterRemoved].filter(textRemoved);;
+
+			/*console.log(this[Charts[filterRemoved]]);*/
+
+/*			if (filterRemoved == "Oblast") {
+				oblast_chart.filter(textRemoved);
+			}
+
+			if (filterRemoved == "Cluster") {
+
+				cluster_chart.filter(textRemoved);
+
+			}*/
+
+
+			dc.redrawAll();
+			/**/
+			/*delete filters[filterRemoved][textRemoved]*/
+
+			/*console.log(filters);*/
+			/*dc.redrawAll();*/
+			/*	all.remove();
+
+			 */
+			/*console.log(cf);*/
+
+		});
+
+		var ResetAll = function() {
+			dc.filterAll();
+			dc.redrawAll();
+			filters = {}
+		}
 	</script>
+	<script type="text/javascript" src="js/change.js"></script>
 </body>
 </html>
