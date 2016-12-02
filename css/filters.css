@@ -1,0 +1,35 @@
+
+.bootstrap-tagsinput {
+    width: 100%
+}
+
+label {
+    color: #0f0f0f;
+}
+.bootstrap-tagsinput input {
+    width: 0 !important;
+}
+
+.bootstrap-tagsinput .disabled-tag {
+    color: #0f0f0f !important;
+    background-color: #ffffff;
+}
+.highlight {
+    background-color: yellow !important;
+}
+
+.tag {
+    background-color: #5bc0de;
+}
+.tag {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
