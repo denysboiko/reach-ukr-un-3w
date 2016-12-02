@@ -1,0 +1,9 @@
+/Users/user/PostgreSQL/pg96
+
+PATH=$PATH:/Users/user/PostgreSQL/pg96/bin/ pip install psycopg2
+
+
+sudo mv /usr/lib/libpq.5.dylib /usr/lib/libpq.5.dylib.old
+
+
+sudo ln -s /Users/user/PostgreSQL/pg96/lib/libpq.5.dylib /usr/lib
