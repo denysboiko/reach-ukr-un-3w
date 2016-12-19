@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}User Registration{% endblock %}
+{% block head %}User Registration{% endblock %}
+{% block content %}
+<style>
+
+
+</style>
+    <form method="post" action="" class="form-signin">{% csrf_token %}
+        <div class = "page-header">
+            <h2 class="form-signin-heading">Register</h2>
+        </div>
+        {{ form }}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+   <diw class="row">
+       <a href="../login/">Login</a>
+   </diw>
+    </form>
+
+{% endblock %}

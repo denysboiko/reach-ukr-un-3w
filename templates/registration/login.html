@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <form method="post" action="../login/" class="form-signin">{% csrf_token %}
+
+
+
+        <div class = "page-header">
+            <h2 class="form-signin-heading">Please sign in</h2>
+        </div>
+
+        {% load widget_tweaks %}
+
+        <label for="id_username">Username:</label>
+
+            {% render_field form.username class+="form-control" placeholder="Username" type="username"%}
+
+            <label for="id_password">Password:</label>
+
+            {% render_field form.password class+="form-control" placeholder="Password" %}
+
+        {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        <input type="hidden" name="next" value="/" />
+        <div class="row">
+            <a href="/register">Register</a>
+        </div>
+    </form>
+
+{% endblock %}
