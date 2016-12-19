@@ -19,5 +19,6 @@ urlpatterns = [
     url(r'^donbas_ngca/$', donbas_ngca),
     # url(r'^ngca/$', ngca),
     url(r'^admin/', admin.site.urls),
-    url(r'^data/', users_json)
+    url(r'^data/', users_json),
+    url(r'^test/', test)
 ]
