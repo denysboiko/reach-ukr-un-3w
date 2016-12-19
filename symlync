@@ -1,0 +1,3 @@
+sudo ln -s /Users/user/anaconda/lib/libssl.1.0.0.dylib /usr/lib
+
+sudo ln -s /Users/user/anaconda/lib/libcrypto.1.0.0.dylib /usr/lib
