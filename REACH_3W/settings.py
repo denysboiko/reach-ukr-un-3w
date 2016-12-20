@@ -108,7 +108,7 @@ WSGI_APPLICATION = 'REACH_3W.wsgi.application'
 if 'RDS_DB_NAME' in os.environ:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ['RDS_DB_NAME'],
             'USER': os.environ['RDS_USERNAME'],
             'PASSWORD': os.environ['RDS_PASSWORD'],
@@ -119,15 +119,22 @@ if 'RDS_DB_NAME' in os.environ:
 else:
     DATABASES = {
     'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': '3W_DB',
-            'USER': 'postgres',
-            'PASSWORD': '3w_reach',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ebdb',
+        'USER': 'postgres',
+        'PASSWORD': 'django2016',
+        'HOST': 'aa7165x417nka7.cegqdc7fq3bu.eu-west-1.rds.amazonaws.com',
+        'PORT': '5432',
         }
     }
-
+    # 'default': {
+    #         'ENGINE': 'django.db.backends.postgresql',
+    #         'NAME': '3W_DB',
+    #         'USER': 'postgres',
+    #         'PASSWORD': '3w_reach',
+    #         'HOST': '127.0.0.1',
+    #         'PORT': '5432',
+    #     }
 # DATABASES = {
 # 'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
