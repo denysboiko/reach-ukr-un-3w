@@ -21,7 +21,8 @@ def ajax(request):
 
 def users_json(request):
 
-    conn = psycopg2.connect(database='3W_DB', user='postgres', password='3w_reach')
+    # conn = psycopg2.connect(database='3W_DB', user='postgres', password='3w_reach')
+    conn = psycopg2.connect(database='ebdb', user='postgres', password='django2016')
     cur = conn.cursor()
     cur.execute("""select row_to_json(t) from (select * from \"WWWData\" WHERE area_type = 'NGCA') t""")
 
