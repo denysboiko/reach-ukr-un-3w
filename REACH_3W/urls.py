@@ -20,5 +20,6 @@ urlpatterns = [
     # url(r'^ngca/$', ngca),
     url(r'^admin/', admin.site.urls),
     url(r'^data/', users_json),
+    # url(r'^data/(?P<query>\w{0,50})/$', users_json),
     url(r'^test/', test)
 ]

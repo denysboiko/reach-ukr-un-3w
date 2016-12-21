@@ -106,3 +106,8 @@ h8 {
 .bootstrap-select {
     margin: 0 !important;
 }
+
+#map > svg {
+   margin: 0 auto;
+    display: block;
+}

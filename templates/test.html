@@ -257,15 +257,8 @@
     };
 
     var dataToLoad = {
-        data: {loader: d3.json, url: "../data/"},{#{% static 'data/Data.json' %}#}
-        data2: {loader: d3.json, url: "{% static 'data/Data.json' %}"},
+        data: {loader: d3.json, url: "../data/"}
     };
-
-
-    console.log(dataToLoad.data);
-
-    console.log(dataToLoad.data2);
-
 
     load(dataToLoad, function(result) {
 
@@ -275,35 +268,37 @@
 
         data.forEach(function (d) {
 
-            console.log(d[0]['activity_start'])
+            //console.log(d[0]['activity_start'])
 
-            d.dd = dateFormat.parse("2016-08-01"); //d[0]['activity_start']
+            d.dd = dateFormat.parse(d[0]['activity_start']); //d[0]['activity_start']
 
-            d.month = 8 // d.dd ? d3.time.month(d.dd) : null; // pre-calculate month for better performance
+            d.month = d.dd ? d3.time.month(d.dd) : null; // d.dd ? d3.time.month(d.dd) : null; // pre-calculate month for better performance
+
+            console.log(d3.time.month(d.dd))
 
         });
 
         var cf = crossfilter(data);
 
 
-            var Columns = {
-                'Date' : 'date',
-                'cluster_name' : 'cluster_name',
-                'org_name' : 'org_name',
-                'partner #1_name': 'partner1_name',
-                'partner #2_name': 'partner2_name',
-                'ADMIN1_ID': 'admin1_id',
-                'ADMIN1_NAME_ENG': 'admin1_name_eng',
-                'ADMIN2_ID': 'admin2_id',
-                'ADMIN2_NAME_UKR': 'admin2_name_ukr',
-                'area_type': 'area_type',
-                'status_name': 'status_name',
-                'ACTIVITY': 'activity',
-                'ACTIVITY_START': 'activity_start',
-                'ACTIVITY_END': 'activity_end',
-                'NUMBER_REACHED': 'number_reached',
-                'COMMENTS': 'comments'
-            };
+        var Columns = {
+            'Date' : 'date',
+            'cluster_name' : 'cluster_name',
+            'org_name' : 'org_name',
+            'partner #1_name': 'partner1_name',
+            'partner #2_name': 'partner2_name',
+            'ADMIN1_ID': 'admin1_id',
+            'ADMIN1_NAME_ENG': 'admin1_name_eng',
+            'ADMIN2_ID': 'admin2_id',
+            'ADMIN2_NAME_UKR': 'admin2_name_ukr',
+            'area_type': 'area_type',
+            'status_name': 'status_name',
+            'ACTIVITY': 'activity',
+            'ACTIVITY_START': 'activity_start',
+            'ACTIVITY_END': 'activity_end',
+            'NUMBER_REACHED': 'number_reached',
+            'COMMENTS': 'comments'
+        };
 
 
         cf.oblast = cf.dimension(function(d) {return d[0]['admin1_name_eng'] });
@@ -311,7 +306,7 @@
         cf.partner = cf.dimension(function(d){ return d[0]['partner1_name'] });
         cf.start = cf.dimension(function(d) { return d[0]['month'] })
         var dataAsOfFormat = d3.time.format("%Y-%m-%d")//"%B %Y"
-        cf.dataasof = cf.dimension(function(d) { return dataAsOfFormat(dateFormat.parse("2016-08-01")) })//d[0]['date']
+        cf.dataasof = cf.dimension(function(d) { return dataAsOfFormat(dateFormat.parse(d[0]['date'])) })//d[0]['date']
         cf.status = cf.dimension(function(d){ return d[0]['status_name'] })
         // cf.benefhh = cf.dimension(function(d){ return d.BENEF_HH })
         // cf.benefind = cf.dimension(function(d){ return d.BENEF_IND })
@@ -352,7 +347,7 @@
         //var raion = cf.raion.group();
 
         var startGroup = cf.start.group()
-                .reduceCount(function(d) { return d[0]['month'] })
+                .reduceCount(function(d) { return d['month'] })
 
         var dataasofGroup = cf.dataasof.group()
                 .reduceCount(function(d) { return d[0]['DATA_AS_OF'] })
@@ -982,10 +977,10 @@
         'COMMENTS': 'comments'
     };
 
-    for (column in Columns) {
-        console.log(Columns[column])
-
-    }
+{#    for (column in Columns) {#}
+{#        console.log(Columns[column])#}
+{##}
+{#    }#}
 
 
 

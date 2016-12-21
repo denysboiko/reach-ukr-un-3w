@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 
 #views.py
@@ -22,9 +23,33 @@ def ajax(request):
 def users_json(request):
 
     # conn = psycopg2.connect(database='3W_DB', user='postgres', password='3w_reach')
-    conn = psycopg2.connect(database='ebdb', user='postgres', password='django2016', host="aa7165x417nka7.cegqdc7fq3bu.eu-west-1.rds.amazonaws.com")
+
+    if 'LOCAL_ENV' in os.environ:
+        conn = psycopg2.connect(database='3W_DB', user='postgres', password='3w_reach')
+    else:
+        conn = psycopg2.connect(database='ebdb', user='postgres', password='django2016', host="aa7165x417nka7.cegqdc7fq3bu.eu-west-1.rds.amazonaws.com")
+
     cur = conn.cursor()
-    cur.execute("""select row_to_json(t) from (select * from \"WWWData\" WHERE area_type = 'NGCA') t""")
+
+    ngca = """select row_to_json(t) from
+                   (select *
+                    from \"WWWData\"
+                    WHERE area_type = 'NGCA'
+                    ) t;"""
+
+    gca = """SELECT row_to_json(t) FROM
+        (SELECT *
+          FROM \"WWWData"\
+          WHERE area_type = 'GCA'
+          AND admin1_id in (1400000000, 4400000000)
+          ) t;"""
+
+    if request.GET.get('query', '') == "gca":
+        cur.execute(gca)
+    else:
+        cur.execute(ngca)
+
+    #  WHERE area_type = 'NGCA'
 
     rows = cur.fetchall()
     # select row_to_json(t) from (select * from \"WWWData\") t

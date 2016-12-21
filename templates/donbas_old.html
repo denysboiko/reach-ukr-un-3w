@@ -171,24 +171,25 @@
 
 
         var projection = d3.geo.mercator().center([39.4,48.9]).scale(6900)
+
         // var smallsuboffmapChart = dc.geoChoroplethChart("#map1")
-        var distmapChart = dc.geoChoroplethChart("#map1");
-        var
-                  oblast_chart = dc.rowChart("#oblast")
+        var distmapChart      = dc.geoChoroplethChart("#map1");
+
+        var oblast_chart = dc.rowChart("#oblast")
                 , cluster_chart = dc.rowChart("#cluster")
                 , agency_chart = dc.rowChart("#agency")
                 , partner_chart = dc.rowChart("#partner")
-                // , donor_chart = dc.rowChart("#donor")
+        // , donor_chart = dc.rowChart("#donor")
                 , status_chart = dc.barChart("#status")
                 , activity_chart = dc.rowChart("#activity")
-                // , dataTable = dc.dataTable("#dc-table-graph")
+        //, dataTable = dc.dataTable("#dc-table-graph")
                 , area_chart = dc.barChart("#area")
                 , raion_chart = dc.rowChart("#raion")
                 , raion1_chart = dc.rowChart("#raion1")
-                // , benefhh_chart = dc.rowChart("#benefhh")
-                // , benefind_chart = dc.rowChart("#benefind")
+        // , benefhh_chart = dc.rowChart("#benefhh")
+        // , benefind_chart = dc.rowChart("#benefind")
                 , startChart = dc.barChart("#tpo")
-                , datofChart = dc.barChart("#tpo1");
+                , datofChart = dc.barChart("#tpo1")
 
 
 
@@ -207,65 +208,44 @@
                     callback(dataToLoad)
                 })
             })
-        };
+        }
 
         var dataToLoad = {
-            //data: {loader: d3.csv, url: '{% static 'data/3W_shelter_Sample_Oblast.csv' %}'}
-            data: {loader: d3.json, url: "../data/?query=gca"}
-        };
+            data: {loader: d3.csv, url: '{% static 'data/3W_shelter_Sample_Oblast.csv' %}'}
+            //, NGCABoundaries: {loader: d3.json, url: 'NGCA_boundaries.json'}
+        }
 
         load(dataToLoad, function(result) {
+            var data = result.data.data
+            //, NGCABoundaries = result.NGCABoundaries.data
 
-            var data = result.data.data;
-            var dateFormat = d3.time.format("%Y-%m-%d");
 
-            console.log(data)
+            // var debutFormat = d3.time.format("%d.%m.%Y");
+            var dateFormat = d3.time.format('%m.%y');
 
             data.forEach(function (d) {
-
-                d.dd= dateFormat.parse(d[0]['activity_start']);
-                d.month = d3.time.month(d['dd']); // pre-calculate month for better performance
-
+                d['dd'] = dateFormat.parse(d['START_ACTIVITY']);
+                d['month'] = d3.time.month(d['dd']); // pre-calculate month for better performance
                 //d.close = +d.close; // coerce to number
                 //d.open = +d.open;
 
-                if(d['admin2_name_ukr'] == 'NA') {
-                    d['admin2_name_ukr'] = 'N/A (' + d['admin1_name_eng'] + ')'
+                if(d['Raion_Name'] == 'NA') {
+                    d['Raion_Name'] = 'N/A (' + d['Oblast_Name'] + ')'
                 }
-            });
+            })
 
-            var cf = crossfilter(data);
+            var cf = crossfilter(data)
 
-            var Columns = {
-                'Date' : 'date',
-                'cluster_name' : 'cluster_name',
-                'org_name' : 'org_name',
-                'partner #1_name': 'partner1_name',
-                'partner #2_name': 'partner2_name',
-                'ADMIN1_ID': 'admin1_id',
-                'ADMIN1_NAME_ENG': 'admin1_name_eng',
-                'ADMIN2_ID': 'admin2_id',
-                'ADMIN2_NAME_UKR': 'admin2_name_ukr',
-                'area_type': 'area_type',
-                'status_name': 'status_name',
-                'ACTIVITY': 'activity',
-                'ACTIVITY_START': 'activity_start',
-                'ACTIVITY_END': 'activity_end',
-                'NUMBER_REACHED': 'number_reached',
-                'COMMENTS': 'comments'
-            };
+            var raionDim = cf.dimension(function(d) { return d['Raion_Name'] })
+                    , raionGroup = raionDim.group().reduceCount()
 
-            var       raionDim = cf.dimension(function(d) { return d[0]['admin2_name_ukr'] })
-                    , raionGroup = raionDim.group().reduceCount();
-
-            var raionNames = {};
-
-            cf.dimension(function(d) { return d[0]['admin1_name_eng']} )
+            var raionNames = {}
+            cf.dimension(function(d) { return d['Oblast_Name']} )
                     .dispose()
                     .group()
                     .reduce(
-                            function(p, v, nf) { p[v[0]['admin2_name_ukr']] = true ; return p }
-                            , function(p, v, nf) { delete p[v[0]['admin2_name_ukr']] ; return p }
+                            function(p, v, nf) { p[v['Raion_Name']] = true ; return p }
+                            , function(p, v, nf) { delete p[v['Raion_Name']] ; return p }
                             , function() { return {} }
                     )
                     .all()
@@ -273,49 +253,38 @@
                         raionNames[item.key] = Object.keys(item.value)
                     })
 
-            cf.oblast = cf.dimension(function(d){ return d[0]['admin1_name_eng']; });
-
+            cf.oblast = cf.dimension(function(d){ return d.Oblast_Name; });
             // cf.raion2 = cf.dimension(function(d){ return d.Raion_Name; });
-            cf.agency = cf.dimension(function(d){ return d[0]['org_name']; });
-            cf.partner = cf.dimension(function(d){ return d[0]['partner1_name']; });
-
-
-            cf.status = cf.dimension(function(d){ return d[0]['status_name']; });
-
-
+            cf.agency = cf.dimension(function(d){ return d.AGENCY; });
+            cf.partner = cf.dimension(function(d){ return d.PARTNER; });
+            cf.status = cf.dimension(function(d){ return d.STATUS_ACTIVITY; });
             //cf.benefhh = cf.dimension(function(d){ return d.BENEF_HH; });
             //cf.benefind = cf.dimension(function(d){ return d.BENEF_IND; });
-            cf.cluster = cf.dimension(function(d){ return d[0]['cluster_name']; });
-            // cf.donor = cf.dimension(function(d){ return d.['DONOR']; });
-            cf.activity = cf.dimension(function(d){ return d[0]['activity']; });
-            cf.area = cf.dimension(function(d){ return d[0]['area_type'] || t('Not specified') });
-            cf.start = cf.dimension(function(d) { return (d['month']) });
-            cf.dataasof = cf.dimension(function(d) { return d['DATA_AS_OF'] == "janv.16" ? t('January 2016') : t('February 2016') });
+            cf.cluster = cf.dimension(function(d){ return d.CLUSTER_ID; });
+            // cf.donor = cf.dimension(function(d){ return d.DONOR; });
+            cf.activity = cf.dimension(function(d){ return d.ACTIVITY; });
+            cf.area = cf.dimension(function(d){ return d.area_type || t('Not specified') });
+            cf.start = cf.dimension(function(d) { return (d.month) });
+            cf.dataasof = cf.dimension(function(d) { return d.DATA_AS_OF == "janv.16" ? t('January 2016') : t('February 2016') });
 
             var oblast = cf.oblast.group()
-                    .reduceCount(function(d) { return d[0]['admin1_name_eng']; });
-
+                    .reduceCount(function(d) { return d.Oblast_Name; });
             var cluster = cf.cluster.group()
-                    .reduceCount(function(d) { return d[0]['cluster_id']; }); // counts
-
+                    .reduceCount(function(d) { return d.CLUSTER_ID; }); // counts
             // var donor = cf.donor.group()
             // 	.reduceCount(function(d) { return d.DONOR; }); // counts
-
             var area = cf.area.group()
-                    .reduceCount(function(d) { return d[0]['area_type']; }); // counts
-
+                    .reduceCount(function(d) { return d.area_type; }); // counts
             var agency = cf.agency.group()
-                    .reduceCount(function(d) { return d[0]['org_name']; });
+                    .reduceCount(function(d) { return d.AGENCY; });
 
             var partner = cf.partner.group()
-                    .reduceCount(function(d) { return d[0]['partner1_name']; });
-
+                    .reduceCount(function(d) { return d.PARTNER; });
             var activity = cf.activity.group();
-
             // var benefhh = cf.raion.group()
-            // 	.reduceSum(function(d) { return d[0]['BENEF_HH']; });// sum
+            // 	.reduceSum(function(d) { return d.BENEF_HH; });// sum
             // var benefind = cf.raion.group()
-            // 	.reduceSum(function(d) { return d[0]['BENEF_IND']; });// sum
+            // 	.reduceSum(function(d) { return d.BENEF_IND; });// sum
             var status = cf.status.group();
             // var raion = cf.raion.group()
             // 	.reduceCount(function(d) { return d.ADMIN2_ID; });
@@ -324,11 +293,14 @@
             // var raion2 = cf.raion2.group()
             // 	.reduceCount(function(d) { return d.Raion_Name; });
             var startGroup = cf.start.group()
-                    .reduceCount(function(d) { return d['month']; });
+                    .reduceCount(function(d) { return d.month; });
             var dataasofGroup = cf.dataasof.group()
-                    .reduceCount(function(d) { return d[0]['DATA_AS_OF']; });
+                    .reduceCount(function(d) { return d.DATA_AS_OF; });
 
             var all = cf.groupAll();
+
+
+
 
 
 

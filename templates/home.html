@@ -69,11 +69,11 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-8" id="map">
+				<div class="col-md-8 col-xs-12" id="map">
 
 				</div>
 
-				<div class="col-md-4" id="oblast">
+				<div class="col-md-4 col-xs-12" id="oblast">
 					<h4 data-i18n="Filter by Oblast"></h4>
 				</div>
 			</div>
@@ -253,6 +253,7 @@
         data.forEach(function (d) {
             d.dd = dateFormat.parse(d['ACTIVITY_START']);
             d.month = d.dd ? d3.time.month(d.dd) : null; // pre-calculate month for better performance
+            console.log(d3.time.month(d.dd))
         });
 
         var cf = crossfilter(data)
@@ -261,7 +262,7 @@
         // 	, distMapGroup = distMapDim.group();
 
         // var oblastNames = {
-        // 	id100000000: "Avtonomna Respublika Krym"
+        // 	  id100000000: "Avtonomna Respublika Krym"
         // 	, id500000000: "Vinnytska Oblas"
         // 	, id700000000: "Volynska Oblast"
         // 	, id1200000000: "Dnipropetrovska Oblast"
