@@ -247,13 +247,13 @@
     load(dataToLoad, function(result) {
 
         var data = result.data.data;
-
+        console.log(data)
         var dateFormat = d3.time.format('%d-%b-%y');
 
         data.forEach(function (d) {
             d.dd = dateFormat.parse(d['ACTIVITY_START']);
             d.month = d.dd ? d3.time.month(d.dd) : null; // pre-calculate month for better performance
-            console.log(d3.time.month(d.dd))
+{#            console.log(d3.time.month(d.dd))#}
         });
 
         var cf = crossfilter(data)

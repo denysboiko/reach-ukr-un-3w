@@ -42,6 +42,7 @@ def users_json(request):
           FROM \"WWWData"\
           WHERE area_type = 'GCA'
           AND admin1_id in (1400000000, 4400000000)
+          --AND admin2_id is not null
           ) t;"""
 
     if request.GET.get('query', '') == "gca":

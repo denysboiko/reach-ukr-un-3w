@@ -217,24 +217,35 @@
         load(dataToLoad, function(result) {
 
             var data = result.data.data;
+
+            //var data = [];
+
+            //data.forEach(function (d) {
+            //   data.push(d[0])
+            //});
+
+
             var dateFormat = d3.time.format("%Y-%m-%d");
 
-            console.log(data)
+            console.log(data);
+
+            var dataClean = []
 
             data.forEach(function (d) {
 
-                d.dd= dateFormat.parse(d[0]['activity_start']);
-                d.month = d3.time.month(d['dd']); // pre-calculate month for better performance
-
-                //d.close = +d.close; // coerce to number
-                //d.open = +d.open;
-
-                if(d['admin2_name_ukr'] == 'NA') {
-                    d['admin2_name_ukr'] = 'N/A (' + d['admin1_name_eng'] + ')'
+                //Data cleaning
+                d[0].dd = dateFormat.parse(d[0]['activity_start']);
+                d[0].month = d3.time.month(d[0].dd); // pre-calculate month for better performance
+                //Raion Cleaning
+                if(d[0]['admin2_name_ukr'] == 'NA' || !d[0]['admin2_name_ukr']) {
+                    d[0]['admin2_name_ukr'] = 'N/A (' + d[0]['admin1_name_eng'] + ')'
                 }
+                dataClean.push(d[0]);
             });
 
-            var cf = crossfilter(data);
+            console.log(dataClean);
+
+            var cf = crossfilter(dataClean);
 
             var Columns = {
                 'Date' : 'date',
@@ -255,17 +266,17 @@
                 'COMMENTS': 'comments'
             };
 
-            var       raionDim = cf.dimension(function(d) { return d[0]['admin2_name_ukr'] })
+            var       raionDim = cf.dimension(function(d) { return d['admin2_name_ukr'] })
                     , raionGroup = raionDim.group().reduceCount();
 
             var raionNames = {};
 
-            cf.dimension(function(d) { return d[0]['admin1_name_eng']} )
+            cf.dimension(function(d) { return d['admin1_name_eng']} )
                     .dispose()
                     .group()
                     .reduce(
-                            function(p, v, nf) { p[v[0]['admin2_name_ukr']] = true ; return p }
-                            , function(p, v, nf) { delete p[v[0]['admin2_name_ukr']] ; return p }
+                            function(p, v, nf) { p[v['admin2_name_ukr']] = true ; return p }
+                            , function(p, v, nf) { delete p[v['admin2_name_ukr']] ; return p }
                             , function() { return {} }
                     )
                     .all()
@@ -273,49 +284,49 @@
                         raionNames[item.key] = Object.keys(item.value)
                     })
 
-            cf.oblast = cf.dimension(function(d){ return d[0]['admin1_name_eng']; });
+            cf.oblast = cf.dimension(function(d){ return d['admin1_name_eng']; });
 
             // cf.raion2 = cf.dimension(function(d){ return d.Raion_Name; });
-            cf.agency = cf.dimension(function(d){ return d[0]['org_name']; });
-            cf.partner = cf.dimension(function(d){ return d[0]['partner1_name']; });
+            cf.agency = cf.dimension(function(d){ return d['org_name']; });
+            cf.partner = cf.dimension(function(d){ return d['partner1_name']; });
 
 
-            cf.status = cf.dimension(function(d){ return d[0]['status_name']; });
+            cf.status = cf.dimension(function(d){ return d['status_name']; });
 
 
             //cf.benefhh = cf.dimension(function(d){ return d.BENEF_HH; });
             //cf.benefind = cf.dimension(function(d){ return d.BENEF_IND; });
-            cf.cluster = cf.dimension(function(d){ return d[0]['cluster_name']; });
+            cf.cluster = cf.dimension(function(d){ return d['cluster_name']; });
             // cf.donor = cf.dimension(function(d){ return d.['DONOR']; });
-            cf.activity = cf.dimension(function(d){ return d[0]['activity']; });
-            cf.area = cf.dimension(function(d){ return d[0]['area_type'] || t('Not specified') });
+            cf.activity = cf.dimension(function(d){ return d['activity']; });
+            cf.area = cf.dimension(function(d){ return d['area_type'] || t('Not specified') });
             cf.start = cf.dimension(function(d) { return (d['month']) });
             cf.dataasof = cf.dimension(function(d) { return d['DATA_AS_OF'] == "janv.16" ? t('January 2016') : t('February 2016') });
 
             var oblast = cf.oblast.group()
-                    .reduceCount(function(d) { return d[0]['admin1_name_eng']; });
+                    .reduceCount(function(d) { return d['admin1_name_eng']; });
 
             var cluster = cf.cluster.group()
-                    .reduceCount(function(d) { return d[0]['cluster_id']; }); // counts
+                    .reduceCount(function(d) { return d['cluster_id']; }); // counts
 
             // var donor = cf.donor.group()
             // 	.reduceCount(function(d) { return d.DONOR; }); // counts
 
             var area = cf.area.group()
-                    .reduceCount(function(d) { return d[0]['area_type']; }); // counts
+                    .reduceCount(function(d) { return d['area_type']; }); // counts
 
             var agency = cf.agency.group()
-                    .reduceCount(function(d) { return d[0]['org_name']; });
+                    .reduceCount(function(d) { return d['org_name']; });
 
             var partner = cf.partner.group()
-                    .reduceCount(function(d) { return d[0]['partner1_name']; });
+                    .reduceCount(function(d) { return d['partner1_name']; });
 
             var activity = cf.activity.group();
 
             // var benefhh = cf.raion.group()
-            // 	.reduceSum(function(d) { return d[0]['BENEF_HH']; });// sum
+            // 	.reduceSum(function(d) { return d['BENEF_HH']; });// sum
             // var benefind = cf.raion.group()
-            // 	.reduceSum(function(d) { return d[0]['BENEF_IND']; });// sum
+            // 	.reduceSum(function(d) { return d['BENEF_IND']; });// sum
             var status = cf.status.group();
             // var raion = cf.raion.group()
             // 	.reduceCount(function(d) { return d.ADMIN2_ID; });
@@ -326,7 +337,7 @@
             var startGroup = cf.start.group()
                     .reduceCount(function(d) { return d['month']; });
             var dataasofGroup = cf.dataasof.group()
-                    .reduceCount(function(d) { return d[0]['DATA_AS_OF']; });
+                    .reduceCount(function(d) { return d['DATA_AS_OF']; });
 
             var all = cf.groupAll();
 
@@ -334,59 +345,52 @@
 
 
 
-            window.saveData = function() {
-                var header = [
-                    'DATA_AS_OF'
-                    , 'CLUSTER_ID'
-                    , 'AGENCY'
-                    , 'PARTNER'
-                    , 'PARTNER2'
-                    , 'DONOR'
-                    , 'ADMIN1_ID'
-                    , 'ADMIN2_ID'
-                    , 'area_type'
-                    , 'STATUS_ACTIVITY'
-                    , 'ACTIVITY'
-                    , 'START_ACTIVITY'
-                    , 'END_ACTIVITY'
-                    , 'BENEF_HH'
-                    , 'BENEF_IND'
-                    , 'Oblast_Name'
-                    , 'Raion_Name'
+        window.saveData = function() {
+            var header = [
+                'date'
+                , 'cluster_name'
+                , 'org_name'
+                , 'partner1_name'
+                , 'partner2_name'
+                , 'admin1_name_eng'
+                , 'admin2_name_ukr'
+                , 'area_type'
+                , 'status_name'
+                , 'activity'
+                , 'activity_start'
+                , 'activity_end'
+                , 'number_reached'
+            ]
+
+            var data = cf.dataasof.top(Infinity)
+
+            data = data.map(function(record) {
+                return [
+                    record['date']
+                    , record['cluster_name']
+                    , record['org_name']
+                    , record['partner1_name']
+                    , record['partner2_name']
+                    , record['admin1_name_eng']
+                    , record['admin2_name_ukr']
+                    , record['area_type']
+                    , record['status_name']
+                    , record['activity']
+                    , record['activity_start']
+                    , record['activity_end']
+                    , record['number_reached']
                 ]
+            })
 
-                var data = cf.dataasof.top(Infinity)
+            data.unshift(header)
 
-                data = data.map(function(record) {
-                    return [
-                        record['DATA_AS_OF']
-                        , record['CLUSTER_ID']
-                        , record['AGENCY']
-                        , record['PARTNER']
-                        , record['PARTNER2']
-                        , record['DONOR']
-                        , record['ADMIN1_ID']
-                        , record['ADMIN2_ID']
-                        , record['area_type']
-                        , record['STATUS_ACTIVITY']
-                        , record['ACTIVITY']
-                        , record['START_ACTIVITY']
-                        , record['END_ACTIVITY']
-                        , record['BENEF_HH']
-                        , record['BENEF_IND']
-                        , record['Oblast_Name']
-                        , record['Raion_Name']
-                    ]
-                })
+            var res = d3.csv.formatRows(data)
 
-                data.unshift(header)
+            var blob = new Blob([res], {type: "text/csv;charset=utf-8"})
 
-                var res = d3.csv.formatRows(data)
+            saveAs(blob, 'ukraine-3w-dataset-' + (new Date()).getTime() + '.csv')
 
-                var blob = new Blob([res], {type: "text/csv;charset=utf-8"})
-
-                saveAs(blob, 'ukraine-3w-oblast-dataset-' + (new Date()).getTime() + '.csv')
-            }
+        };
 
 
 
