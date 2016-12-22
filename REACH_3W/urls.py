@@ -1,8 +1,14 @@
-from django.conf.urls import url
+from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-
 from WWW_Dashboard.views import *
+from rest_framework import routers
+
+
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'groups', GroupViewSet)
+router.register(r'data-api', MasterDataViewSet)
 
 
 urlpatterns = [
@@ -21,5 +27,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^data/', users_json),
     # url(r'^data/(?P<query>\w{0,50})/$', users_json),
-    url(r'^test/', test)
+    # url(r'^accounts/', include('registration.backends.hmac.urls')),
+    url(r'^test/', test),
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

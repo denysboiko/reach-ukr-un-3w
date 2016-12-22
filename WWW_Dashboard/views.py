@@ -1,5 +1,9 @@
 import os
 from django.shortcuts import render
+from django.contrib.auth.models import User, Group
+from WWW_Dashboard.models import Wwwdata
+from rest_framework import viewsets
+from WWW_Dashboard.serializers import UserSerializer, GroupSerializer, MasterDataSerializer
 
 #views.py
 from WWW_Dashboard.forms import *
@@ -139,3 +143,26 @@ def donbas_ngca(request):
           'access': check_access(request.user)
         }
     )
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
+
+class MasterDataViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Wwwdata.objects.all()
+    serializer_class = MasterDataSerializer
