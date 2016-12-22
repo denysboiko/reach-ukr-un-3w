@@ -188,7 +188,7 @@
                 // , benefhh_chart = dc.rowChart("#benefhh")
                 // , benefind_chart = dc.rowChart("#benefind")
                 , startChart = dc.barChart("#tpo")
-                , datofChart = dc.barChart("#tpo1");
+                , dataasofChart = dc.barChart("#tpo1");
 
 
 
@@ -217,14 +217,6 @@
         load(dataToLoad, function(result) {
 
             var data = result.data.data;
-
-            //var data = [];
-
-            //data.forEach(function (d) {
-            //   data.push(d[0])
-            //});
-
-
             var dateFormat = d3.time.format("%Y-%m-%d");
 
             console.log(data);
@@ -282,7 +274,7 @@
                     .all()
                     .forEach(function(item) {
                         raionNames[item.key] = Object.keys(item.value)
-                    })
+                    });
 
             cf.oblast = cf.dimension(function(d){ return d['admin1_name_eng']; });
 
@@ -301,7 +293,9 @@
             cf.activity = cf.dimension(function(d){ return d['activity']; });
             cf.area = cf.dimension(function(d){ return d['area_type'] || t('Not specified') });
             cf.start = cf.dimension(function(d) { return (d['month']) });
-            cf.dataasof = cf.dimension(function(d) { return d['DATA_AS_OF'] == "janv.16" ? t('January 2016') : t('February 2016') });
+
+            var dataAsOfFormat = d3.time.format("%B %Y");
+            cf.dataasof = cf.dimension(function(d) { return dataAsOfFormat(dateFormat.parse(d['date'])) });
 
             var oblast = cf.oblast.group()
                     .reduceCount(function(d) { return d['admin1_name_eng']; });
@@ -337,12 +331,9 @@
             var startGroup = cf.start.group()
                     .reduceCount(function(d) { return d['month']; });
             var dataasofGroup = cf.dataasof.group()
-                    .reduceCount(function(d) { return d['DATA_AS_OF']; });
+                    .reduceCount(function(d) { return d['date']; });
 
             var all = cf.groupAll();
-
-
-
 
 
         window.saveData = function() {
@@ -690,22 +681,21 @@
                     .xAxis().ticks(4);
             //.xAxis().tickFormat();
 
-            datofChart.width(350)
+            dataasofChart.width(350)
                     .height(220)
                     .margins({top: 30, right: 10, bottom: 40, left: 40})
                     .dimension(cf.dataasof)
                     .group(dataasofGroup)
                     .on('filtered', function(chart, filter) {
                         var newFilter = {}
-                        newFilter[t('Month')] = datofChart.filters()
+                        newFilter[t('Month')] = dataasofChart.filters()
                         updateFilters(newFilter)
                     })
                     .transitionDuration(500)
                     .centerBar(false)
                     .colors("#026cb6")
-                    .gap(50) // 65 = norm
-                    // .filter([3, 5])
-                    .x(d3.scale.ordinal().domain([t('January 2016'), t('February 2016')]))
+                    .gap(50)
+                    .x(d3.scale.ordinal())
                     .xUnits(dc.units.ordinal)
                     .elasticY(true)
                     .xAxisLabel(t('Month'))
@@ -882,7 +872,7 @@
         'Activity' : activity_chart,
         'Agency' : agency_chart,
         'Partner' : partner_chart,
-        'Month' : datofChart,
+        'Month' : dataasofChart,
         'Start' : startChart,
         'Small Suboff Map' : null,
         'Donor' : null,

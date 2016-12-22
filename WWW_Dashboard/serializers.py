@@ -16,4 +16,40 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class MasterDataSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Wwwdata
-        fields = ('url', 'cluster_name', 'org_name')
+        # fields = '__all__'
+        fields = (
+              'date'
+            , 'cluster_name'
+            , 'partner1_name'
+            , 'partner2_name'
+            , 'admin1_id'
+            , 'admin1_name_eng'
+            , 'admin2_id'
+            , 'admin2_name_ukr'
+            , 'area_type'
+            , 'status_name'
+            , 'activity'
+            , 'activity_start'
+            , 'activity_end'
+            , 'number_reached'
+        )
+class MasterDataSerializerRaw(serializers.Serializer):
+    class Meta:
+        model = Wwwdata
+        # fields = '__all__'
+        fields = (
+              'date'
+            , 'cluster_name'
+            , 'partner1_name'
+            , 'partner2_name'
+            , 'admin1_id'
+            , 'admin1_name_eng'
+            , 'admin2_id'
+            , 'admin2_name_ukr'
+            , 'area_type'
+            , 'status_name'
+            , 'activity'
+            , 'activity_start'
+            , 'activity_end'
+            , 'number_reached'
+        )
