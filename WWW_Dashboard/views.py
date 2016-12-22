@@ -162,10 +162,10 @@ class MasterDataViewSetGCA(viewsets.ReadOnlyModelViewSet):
     API endpoint that allows to view the data.
     """
     permission_classes = (AllowAny,)
-    queryset = Wwwdata.objects.filter(area_type='GCA')
+    queryset = Wwwdata.objects.filter(area_type='GCA', admin1_id__in = [1400000000, 4400000000])
     # queryset = Wwwdata.objects.filter(area_type='GCA')
     serializer_class = MasterDataSerializer
-    # pagination_class = None
+    pagination_class = None
 
 class MasterDataViewSetNGCA(viewsets.ReadOnlyModelViewSet):
     """
@@ -174,7 +174,7 @@ class MasterDataViewSetNGCA(viewsets.ReadOnlyModelViewSet):
     queryset = Wwwdata.objects.filter(area_type='NGCA')
     # queryset = Wwwdata.objects.filter(area_type='GCA')
     serializer_class = MasterDataSerializer
-    # pagination_class = None
+    pagination_class = None
 
 class MasterDataViewJSON(APIView):
     """

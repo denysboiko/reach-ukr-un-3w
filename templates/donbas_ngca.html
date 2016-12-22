@@ -211,7 +211,7 @@
 
         var dataToLoad = {
             //data: {loader: d3.csv, url: '{% static 'data/3W_shelter_Sample_Oblast.csv' %}'}
-            data: {loader: d3.json, url: "../data/?query=ngca"}
+            data: {loader: d3.json, url: "../data-ngca/?format=json"}
         };
 
         load(dataToLoad, function(result) {
@@ -221,23 +221,23 @@
 
             console.log(data);
 
-            var dataClean = []
+            //var dataClean = []
 
             data.forEach(function (d) {
 
                 //Data cleaning
-                d[0].dd = dateFormat.parse(d[0]['activity_start']);
-                d[0].month = d3.time.month(d[0].dd); // pre-calculate month for better performance
+                d.dd = dateFormat.parse(d['activity_start']);
+                d.month = d3.time.month(d.dd); // pre-calculate month for better performance
                 //Raion Cleaning
-                if(d[0]['admin2_name_ukr'] == 'NA' || !d[0]['admin2_name_ukr']) {
-                    d[0]['admin2_name_ukr'] = 'N/A (' + d[0]['admin1_name_eng'] + ')'
+                if(d['admin2_name_ukr'] == 'NA' || !d['admin2_name_ukr']) {
+                    d['admin2_name_ukr'] = 'N/A (' + d['admin1_name_eng'] + ')'
                 }
-                dataClean.push(d[0]);
+                //dataClean.push(d[0]);
             });
 
-            console.log(dataClean);
+            //console.log(dataClean);
 
-            var cf = crossfilter(dataClean);
+            var cf = crossfilter(data);
 
             var Columns = {
                 'Date' : 'date',
