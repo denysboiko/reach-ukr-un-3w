@@ -37,7 +37,7 @@
     </div>
 
     <div class="content">
-
+    <h3>{{ request.get_full_path }}</h3>
         <div class="row">
             <div class="col-md-6" align="left">
                 <h4 data-i18n="Data from January 2016 to February 2016"></h4>
@@ -339,7 +339,6 @@
 
             var startGroup = cf.start.group()
                     .reduceCount(function(d) { return d['month']; });
-
             var dataasofGroup = cf.dataasof.group()
                     .reduceCount(function(d) { return d['date']; });
 
@@ -671,12 +670,12 @@
                     .dimension(cf.start)
                     .group(startGroup)
                     .on('filtered', function(event, filter) {
-                        var res = filter
+                        var res = filter;
                         if(res && res.length > 0) {
-                            var res = [dateFormat(res[0]) + " &ndash; " + dateFormat(res[1])]
+                            res = [dateFormat(res[0]) + " - " + dateFormat(res[1])]
                         }
-                        var newFilter = {}
-                        newFilter[t('Start')] = res
+                        var newFilter = {};
+                        newFilter[t('Start')] = res;
                         updateFilters(newFilter)
                     })
                     .transitionDuration(500)
@@ -697,7 +696,7 @@
                     .dimension(cf.dataasof)
                     .group(dataasofGroup)
                     .on('filtered', function(chart, filter) {
-                        var newFilter = {}
+                        var newFilter = {};
                         newFilter[t('Month')] = dataasofChart.filters()
                         updateFilters(newFilter)
                     })

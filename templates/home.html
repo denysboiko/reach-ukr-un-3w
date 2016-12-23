@@ -28,21 +28,21 @@
 
     <div class="content">
         <div class="row">
-        <div class="col-md-6" align="left">
-            <h4 data-i18n="Data from August 2016"></h4>
+            <div class="col-md-6" align="left">
+                <h4 data-i18n="Data from August 2016"></h4>
 {#            <h3>{{ request.get_host }}</h3>#}
-        </div>
-        <div id="count-info" class="col-md-5" align="right">
+            </div>
+            <div id="count-info" class="col-md-5" align="right">
 
-            <h4>
-                <span class="filter-count"></span>
-                <span data-i18n="Activities selected of"></span>
-                <span class="total-count"></span></h4>
+                <h4>
+                    <span class="filter-count"></span>
+                    <span data-i18n="Activities selected of"></span>
+                    <span class="total-count"></span></h4>
+            </div>
+            <div class="col-md-1" align="right">
+                <button class="reset btn btn-primary btn-sm" data-i18n="Reset All"></button>
+            </div>
         </div>
-        <div class="col-md-1" align="right">
-            <button class="reset btn btn-primary btn-sm" data-i18n="Reset All"></button>
-        </div>
-    </div>
         <div class="row">
             <div class="col-md-12" >
                 <p>
@@ -63,69 +63,71 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8 col-xs-12" id="map">
+            <div class="row">
+                <div class="col-md-8 col-xs-12" id="map"></div>
 
+                <div class="col-md-4 col-sm-6 col-xs-12" id="oblast">
+                    <h4 data-i18n="Filter by Oblast"></h4>
+                </div>
+
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <h4 data-i18n="Filter by Status"></h4>
+                    <div id="status" class="row"></div>
+                </div>
             </div>
 
-            <div class="col-md-4 col-xs-12" id="oblast">
-                <h4 data-i18n="Filter by Oblast"></h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <h4 data-i18n="Filter by Status"></h4>
-                <div id="status" class="row"></div>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-4 col-sm-6 col-xs-12">
                 <h4 data-i18n="Filter by Cluster"></h4>
                 <div id="cluster" class="col-md-12"></div>
             </div>
-            <div class="col-md-4">
-            <h4 data-i18n="Filter by GCA / NGCA"></h4>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <h4 data-i18n="Filter by GCA / NGCA"></h4>
                 <div id="area" class="row"></div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6" align="left">
-            </div>
-            <div id="count-info" class="col-md-5" align="right">
-                <h4><span class="filter-count"></span><span class="total-count"></span> </h4>
-            </div>
 
-            <div class="col-md-1" align="right">
-                <button class="reset btn btn-primary btn-sm" data-i18n="Reset All"></button>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 col-sm-12 col-xs-12">
                 <h4 data-i18n="Filter by Activity"></h4>
                 <div id="activity" class="col-md-12"></div>
             </div>
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h4 data-i18n="Filter by Agency (Top 20)"></h4>
-                        <div id="agency" class="col-md-12"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <h4 data-i18n="Filter by Implementing Partner (Top 20)"></h4>
-                        <div id="partner" class="col-md-12"></div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <h4 data-i18n="Number of activities reported by month"></h4>
-                        <h5 data-i18n="Data as of"></h5>
-                        <div id="dataasof" class="row"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <h4 data-i18n="Number of activities reported by month"></h4>
-                        <h5 data-i18n="Start data activity"></h5>
-                        <div id="date" class="row"></div>
-                    </div>
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <h4 data-i18n="Filter by Agency (Top 20)"></h4>
+                    <div id="agency" class="col-md-12"></div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <h4 data-i18n="Filter by Implementing Partner (Top 20)"></h4>
+                    <div id="partner" class="col-md-12"></div>
                 </div>
             </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <h4 data-i18n="Number of activities reported by month"></h4>
+                <h5 data-i18n="Data as of"></h5>
+                <div id="dataasof" class="row"></div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <h4 data-i18n="Number of activities reported by month"></h4>
+                <h5 data-i18n="Start data activity"></h5>
+                <div id="date" class="row"></div>
+            </div>
         </div>
+
+    </div>
+
+{#        <div class="row">#}
+{#            <div class="col-md-6" align="left">#}
+{#            </div>#}
+{#            <div id="count-info" class="col-md-5" align="right">#}
+{#                <h4><span class="filter-count"></span><span class="total-count"></span> </h4>#}
+{#            </div>#}
+{##}
+{#            <div class="col-md-1" align="right">#}
+{#                <button class="reset btn btn-primary btn-sm" data-i18n="Reset All"></button>#}
+{#            </div>#}
+{##}
+{#        </div>#}
+
+
         <div class="row">
             <div class="col-md-6" align="left">
             </div>
@@ -206,7 +208,7 @@
         load(dataToLoad, target, function(result) {
 
             var data = result.data.data;
-            console.log(data)
+            //console.log(data)
             var dateFormat = d3.time.format('%d-%b-%y');
 
             data.forEach(function (d) {
@@ -515,6 +517,19 @@
                     .margins({top: 30, right: 10, bottom: 40, left: 40})
                     .dimension(cf.start)
                     .group(startGroup)
+                    .on('filtered', function(event, filter) {
+
+                        var res = filter;
+                        if(res && res.length > 0) {
+                            res = [dateFormat(res[0]) + " - " + dateFormat(res[1])]
+                        }
+                        else {
+                            res = null
+                        }
+                        var filters = {};
+                        filters[t('Start')] = res;
+                        updateFilters(filters)
+                    })
                     .transitionDuration(500)
                     .centerBar(true)
                     .colors("#026CB6")
@@ -523,16 +538,6 @@
                     .elasticY(true)
                     .xAxisLabel(t('Date'))
                     .yAxisLabel(t('# of activities by date'))
-                    .on('filtered', function(event, filter) {
-                        var res = filter
-
-                        if(res && res.length > 0) {
-                            var res = [dateFormat(res[0]) + "&ndash;" + dateFormat(res[1])]
-                        }
-                        var filters = {}
-                        filters[t('Start')] = oblast_chart.filters()
-                        updateFilters(filters)
-                    })
                     .xAxis().ticks(4)
 
             dataasofChart.width(350)
@@ -540,6 +545,11 @@
                     .margins({top: 30, right: 10, bottom: 40, left: 40})
                     .dimension(cf.dataasof)
                     .group(dataasofGroup)
+                    .on('filtered', function(chart, filter) {
+                        var filters = {};
+                        filters[t('Month')] = dataasofChart.filters()
+                        updateFilters(filters)
+                    })
                     .transitionDuration(500)
                     .centerBar(false)
                     .colors("#026CB6")
@@ -549,11 +559,6 @@
                     .elasticY(true)
                     .xAxisLabel(t('Month'))
                     .yAxisLabel(t('# of activities by date'))
-                    .on('filtered', function(chart, filter) {
-                        var filters = {}
-                        filters[t('Data As Of')] = dataasofChart.filters()
-                        updateFilters(filters)
-                    })
                     .xAxis().tickFormat();
 
             dc.dataCount("#count-info")

@@ -77,8 +77,6 @@ elt.on('itemRemoved', function(event) {
     var textRemoved = event.item.text;
     var newfilters = [];
 
-    console.log(filterRemoved);
-
     j = 0;
     for (i = 0; i < filters[filterRemoved].length; i++) {
         j = j +1;
@@ -88,7 +86,14 @@ elt.on('itemRemoved', function(event) {
     }
 
     filters[filterRemoved] = newfilters;
-    Charts[filterRemoved].filter(textRemoved);
+
+    if (filterRemoved == t('Start')) {
+      Charts[filterRemoved].filter(null)
+    }
+    else {
+      Charts[filterRemoved].filter(textRemoved);
+    }
+
     dc.redrawAll();
 
 });
