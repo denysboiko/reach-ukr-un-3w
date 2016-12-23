@@ -22,6 +22,7 @@ from django.http import HttpResponse
 from django.core import serializers
 import psycopg2
 
+
 def users_json(request):
 
     # conn = psycopg2.connect(database='3W_DB', user='postgres', password='3w_reach')
@@ -62,7 +63,6 @@ def users_json(request):
     return HttpResponse(json.dumps(rows), content_type='application/json')
 
 
-
 @csrf_protect
 def register(request):
 
@@ -87,9 +87,10 @@ def register(request):
 
 
 def register_success(request):
-    return render_to_response(
+    return render(
         'registration/success.html',
     )
+
 
 def logout_page(request):
     logout(request)
@@ -103,44 +104,52 @@ def logout_page(request):
 
 
 def home(request):
-    return render_to_response(
+    return render(
+        request,
         'home.html',
         { 'user': request.user,
           'access': check_access(request.user)
         }
     )
 
-def test(request):
-    return render(
-        request,
-        'test.html',
-        { 'user': request.user,
-          'access': check_access(request.user)
-        }
-    )
-
-def donbas(request):
-    return render_to_response(
-        'donbas.html',
-        { 'user': request.user ,
-          'access': check_access(request.user)
-        }
-    )
 
 def check_access(user):
     if user:
         return user.groups.filter(name='Staff').count() > 0
     return False
 
+
+def donbas(request):
+    return render(
+        request,
+        'donbas.html',
+        { 'user': request.user ,
+          'access': check_access(request.user),
+          'data': '../data-gca/?format=json'
+        }
+    )
+
+def test(request):
+    return render(
+        request,
+        'home-test.html',
+        { 'user': request.user,
+          'access': check_access(request.user),
+          'data': '../data/?format=json'
+        }
+    )
+
 @login_required
 @user_passes_test(check_access, login_url='../login/')
 def donbas_ngca(request):
     return render_to_response(
-        'donbas_ngca.html',
+        'donbas.html',
         { 'user': request.user,
-          'access': check_access(request.user)
+          'access': check_access(request.user),
+          'data': '../data-ngca/?format=json'
         }
     )
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -157,15 +166,17 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
+
 class MasterDataViewSetGCA(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows to view the data.
     """
     permission_classes = (AllowAny,)
-    queryset = Wwwdata.objects.filter(area_type='GCA', admin1_id__in = [1400000000, 4400000000])
+    queryset = Wwwdata.objects.filter(area_type='GCA', admin1_id__in=[1400000000, 4400000000], partner1_name__isnull=False)
     # queryset = Wwwdata.objects.filter(area_type='GCA')
     serializer_class = MasterDataSerializer
     pagination_class = None
+
 
 class MasterDataViewSetNGCA(viewsets.ReadOnlyModelViewSet):
     """
@@ -175,6 +186,17 @@ class MasterDataViewSetNGCA(viewsets.ReadOnlyModelViewSet):
     # queryset = Wwwdata.objects.filter(area_type='GCA')
     serializer_class = MasterDataSerializer
     pagination_class = None
+
+class MasterDataViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows to view the data.
+    """
+    permission_classes = (AllowAny,)
+    queryset = Wwwdata.objects.all()
+    # queryset = Wwwdata.objects.filter(area_type='GCA')
+    serializer_class = MasterDataSerializer
+    pagination_class = None
+
 
 class MasterDataViewJSON(APIView):
     """

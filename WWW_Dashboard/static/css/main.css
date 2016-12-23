@@ -9,7 +9,7 @@ body > .container {
 }
 
 div {
-    color: #026cb6;
+    /*color: #026cb6;*/
 }
 
 h7 {
@@ -110,4 +110,12 @@ h8 {
 #map > svg {
    margin: 0 auto;
     display: block;
+}
+
+
+#spinner-box {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
 }

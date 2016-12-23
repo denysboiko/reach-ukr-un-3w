@@ -30,7 +30,6 @@
         <div class="row">
         <div class="col-md-6" align="left">
             <h4 data-i18n="Data from August 2016"></h4>
-{#            <h3>{{ request.get_host }}</h3>#}
         </div>
         <div id="count-info" class="col-md-5" align="right">
 
@@ -193,149 +192,146 @@
             };
 
         var dataToLoad = {
-            data: {loader: d3.csv, url: "{% static 'data/Master_Table_Data_August_2016.csv' %}"}
-            //api_data: {loader: d3.json, url: "http://localhost:8000/data"}
+            //data: {loader: d3.csv, url: "{% static 'data/Master_Table_Data_August_2016.csv' %}"}
+            data: {loader: d3.json, url: "{{ data }}"}
         };
 
-
-        //console.log(dataToLoad.data);
-
-        //console.log(dataToLoad.api_data);
         var target = document.getElementById('spinner-box');
 
         load(dataToLoad, target, function(result) {
 
             var data = result.data.data;
-            console.log(data)
-            var dateFormat = d3.time.format('%d-%b-%y');
+            var dateFormat = d3.time.format('%Y-%m-%d');
+            //console.log(data)
 
             data.forEach(function (d) {
-                d.dd = dateFormat.parse(d['ACTIVITY_START']);
+                d.dd = dateFormat.parse(d['activity_start']);
                 d.month = d.dd ? d3.time.month(d.dd) : null; // pre-calculate month for better performance
             });
 
-            var cf = crossfilter(data)
+            var cf = crossfilter(data);
 
             // var distMapDim     = cf.dimension(function(d) {return d['ADMIN2_ID'];})
             // 	, distMapGroup = distMapDim.group();
 
-            // var oblastNames = {
-            // 	  id100000000: "Avtonomna Respublika Krym"
-            // 	, id500000000: "Vinnytska Oblas"
-            // 	, id700000000: "Volynska Oblast"
-            // 	, id1200000000: "Dnipropetrovska Oblast"
-            // 	, id1400000000: "Donetska Oblast"
-            // 	, id1800000000: "Zhytomyrska Oblast"
-            // 	, id2100000000: "Zakarpatska Oblast"
-            // 	, id2300000000: "Zaporizka Oblast"
-            // 	, id2600000000: "Ivano-Frankivska Oblast"
-            // 	, id3200000000: "Kyivska Oblast"
-            // 	, id3500000000: "Kirovohradska"
-            // 	, id4400000000: "Luhanska Oblast"
-            // 	, id4600000000: "Lvivska Oblast"
-            // 	, id4800000000: "Mykolaivska Oblast"
-            // 	, id5100000000: "Odeska Oblast"
-            // 	, id5300000000: "Poltavska Oblast"
-            // 	, id5600000000: "Rivnenska Oblast"
-            // 	, id5900000000: "Sumska Oblast"
-            // 	, id6100000000: "Ternopilska Oblast"
-            // 	, id6300000000: "Kharkivska Oblast"
-            // 	, id6500000000: "Khersonska Oblast"
-            // 	, id6800000000: "Khmelnytska Oblast"
-            // 	, id7100000000: "Cherkaska Oblast"
-            // 	, id7300000000: "Chernivetska Oblast"
-            // 	, id7400000000: "Chernihivska Oblast"
-            // 	, id8000000000: "Kyiv"
-            // 	, id8500000000: "Sevastopol"
-            // 	, na: "NA"
-            // }
+            var Columns = {
+                'Date' : 'date',
+                'cluster_name' : 'cluster_name',
+                'org_name' : 'org_name',
+                'partner #1_name': 'partner1_name',
+                'partner #2_name': 'partner2_name',
+                'ADMIN1_ID': 'admin1_id',
+                'ADMIN1_NAME_ENG': 'admin1_name_eng',
+                'ADMIN2_ID': 'admin2_id',
+                'ADMIN2_NAME_UKR': 'admin2_name_ukr',
+                'area_type': 'area_type',
+                'status_name': 'status_name',
+                'ACTIVITY': 'activity',
+                'ACTIVITY_START': 'activity_start',
+                'ACTIVITY_END': 'activity_end',
+                'NUMBER_REACHED': 'number_reached',
+                'COMMENTS': 'comments'
+            };
 
-            cf.oblast = cf.dimension(function(d) {return d['ADMIN1_NAME_ENG'] });
-            cf.agency = cf.dimension(function(d){ return d['org_name'] });
-            cf.partner = cf.dimension(function(d){ return d['partner #1_name'] });
+            cf.oblast = cf.dimension(function(d) { return d['admin1_name_eng'] });
+            cf.agency = cf.dimension(function(d) { return d['org_name'] });
+            cf.partner = cf.dimension(function(d) { return d['partner1_name'] });
             cf.start = cf.dimension(function(d) { return d['month'] });
-
             var dataAsOfFormat = d3.time.format("%B %Y");
-            cf.dataasof = cf.dimension(function(d) { return dataAsOfFormat(dateFormat.parse(d['Date'])) })
-
-            cf.status = cf.dimension(function(d){ return d['status_name'] })
-            cf.cluster = cf.dimension(function(d){ return d['cluster_name'] })
-            cf.activity = cf.dimension(function(d){ return d['ACTIVITY'] })
-            cf.area = cf.dimension(function(d){ return d['area_type'] || t('Not specified') });
+            cf.dataasof = cf.dimension(function(d) { return dataAsOfFormat(dateFormat.parse(d['date'])) });
+            cf.status = cf.dimension(function(d) { return d['status_name'] });
+            cf.cluster = cf.dimension(function(d) { return d['cluster_name'] });
+            cf.activity = cf.dimension(function(d) { return d['activity'] });
+            cf.area = cf.dimension(function(d) { return d['area_type'] || t('Not specified') });
 
             var oblast = cf.oblast.group()
-                    .reduceCount(function(d) { return d['ADMIN1_NAME_ENG'] });
+                    .reduceCount(function(d) { return d['admin1_name_eng']; });
 
             var cluster = cf.cluster.group()
-                    .reduceCount(function(d) { return d['CLUSTER_ID'] }); // counts
+                    .reduceCount(function(d) { return d['cluster_id']; }); // counts
 
             var area = cf.area.group()
-                    .reduceCount(function(d) { return d['area_type'] }) // counts
+                    .reduceCount(function(d) { return d['area_type']; }); // counts
 
             var agency = cf.agency.group()
-                    .reduceCount(function(d) { return d['org_name'] });
+                    .reduceCount(function(d) { return d['org_name']; });
 
             var partner = cf.partner.group()
-                    .reduceCount(function(d) { return d['partner #1_name'] });
+                    .reduceCount(function(d) { return d['partner1_name']; });
 
             var activity = cf.activity.group();
 
+            // var benefhh = cf.raion.group()
+            // 	.reduceSum(function(d) { return d['BENEF_HH']; });// sum
+
+            // var benefind = cf.raion.group()
+            // 	.reduceSum(function(d) { return d['BENEF_IND']; });// sum
+
             var status = cf.status.group();
 
+            // var raion = cf.raion.group()
+            // 	.reduceCount(function(d) { return d.ADMIN2_ID; });
+
+            // var raion1 = cf.raion1.group()
+            // 	.reduceCount(function(d) { return d.ADMIN2_ID; });
+
+            // var raion2 = cf.raion2.group()
+            // 	.reduceCount(function(d) { return d.Raion_Name; });
+
             var startGroup = cf.start.group()
-                    .reduceCount(function(d) { return d['month'] })
+                    .reduceCount(function(d) { return d['month']; });
 
             var dataasofGroup = cf.dataasof.group()
-                    .reduceCount(function(d) { return d['date'] })
+                    .reduceCount(function(d) { return d['date']; });
 
             var all = cf.groupAll();
 
             window.saveData = function() {
                 var header = [
-                    'Date'
+                    'date'
                     , 'cluster_name'
                     , 'org_name'
-                    , 'partner #1_name'
-                    , 'partner #2_name'
-                    , 'ADMIN1_NAME_ENG'
-                    , 'ADMIN2_NAME_UKR'
+                    , 'partner1_name'
+                    , 'partner2_name'
+                    , 'admin1_name_eng'
+                    , 'admin2_name_ukr'
                     , 'area_type'
                     , 'status_name'
-                    , 'ACTIVITY'
-                    , 'ACTIVITY_START'
-                    , 'ACTIVITY_END'
-                    , 'NUMBER_REACHED'
+                    , 'activity'
+                    , 'activity_start'
+                    , 'activity_end'
+                    , 'number_reached'
                 ]
 
-                var data = cf.dataasof.top(Infinity)
+            var data = cf.dataasof.top(Infinity)
 
-                data = data.map(function(record) {
-                    return [
-                        record['Date']
-                        , record['cluster_name']
-                        , record['org_name']
-                        , record['partner #1_name']
-                        , record['partner #2_name']
-                        , record['ADMIN1_NAME_ENG']
-                        , record['ADMIN2_NAME_UKR']
-                        , record['area_type']
-                        , record['status_name']
-                        , record['ACTIVITY']
-                        , record['ACTIVITY_START']
-                        , record['ACTIVITY_END']
-                        , record['NUMBER_REACHED']
-                    ]
-                })
+            data = data.map(function(record) {
+                return [
+                    record['date']
+                    , record['cluster_name']
+                    , record['org_name']
+                    , record['partner1_name']
+                    , record['partner2_name']
+                    , record['admin1_name_eng']
+                    , record['admin2_name_ukr']
+                    , record['area_type']
+                    , record['status_name']
+                    , record['activity']
+                    , record['activity_start']
+                    , record['activity_end']
+                    , record['number_reached']
+                ]
+            });
 
-                data.unshift(header)
+            data.unshift(header)
 
-                var res = d3.csv.formatRows(data)
+            var res = d3.csv.formatRows(data)
 
-                var blob = new Blob([res], {type: "text/csv;charset=utf-8"})
+            var blob = new Blob([res], {type: "text/csv;charset=utf-8"})
 
-                saveAs(blob, 'ukraine-3w-dataset-' + (new Date()).getTime() + '.csv')
+            saveAs(blob, 'ukraine-3w-dataset-' + (new Date()).getTime() + '.csv')
 
-            }
+        };
 
 
 
