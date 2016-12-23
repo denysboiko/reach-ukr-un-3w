@@ -1,5 +1,13 @@
 import os
 from django.shortcuts import render
+from django.contrib.auth.models import User, Group
+from WWW_Dashboard.models import Wwwdata
+from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from WWW_Dashboard.serializers import UserSerializer, GroupSerializer, MasterDataSerializer, MasterDataSerializerRaw
 
 #views.py
 from WWW_Dashboard.forms import *
@@ -13,12 +21,6 @@ import json
 from django.http import HttpResponse
 from django.core import serializers
 import psycopg2
-
-def ajax(request):
-    data = {}
-    data['something'] = 'useful'
-    return HttpResponse(json.dumps(data), content_type = "application/json")
-
 
 def users_json(request):
 
@@ -139,3 +141,53 @@ def donbas_ngca(request):
           'access': check_access(request.user)
         }
     )
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
+class MasterDataViewSetGCA(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows to view the data.
+    """
+    permission_classes = (AllowAny,)
+    queryset = Wwwdata.objects.filter(area_type='GCA', admin1_id__in = [1400000000, 4400000000])
+    # queryset = Wwwdata.objects.filter(area_type='GCA')
+    serializer_class = MasterDataSerializer
+    pagination_class = None
+
+class MasterDataViewSetNGCA(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows to view the data.
+    """
+    queryset = Wwwdata.objects.filter(area_type='NGCA')
+    # queryset = Wwwdata.objects.filter(area_type='GCA')
+    serializer_class = MasterDataSerializer
+    pagination_class = None
+
+class MasterDataViewJSON(APIView):
+    """
+    API endpoint that allows to view the data.
+    """
+    renderer_classes = (JSONRenderer,)
+
+    def get(self, request, *args, **kwargs):
+        queryset = Wwwdata.objects.filter(area_type='NGCA')
+        result = MasterDataSerializerRaw(queryset)
+        print result
+        return Response(result.data)
+
+    # queryset = Wwwdata.objects.filter(area_type='GCA')
+    # serializer_class = MasterDataSerializer
+

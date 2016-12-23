@@ -38,14 +38,14 @@
 						<span class="total-count"></span></h4>
 				</div>
 				<div class="col-md-1" align="right">
-					<a class="reset btn btn-primary btn-sm" id="reset" href="javascript:ResetAll()" data-i18n="Reset All"></a>
+					<button class="reset btn btn-primary btn-sm" data-i18n="Reset All"></button>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-md-12" >
                     <p>
-                        <a href="javascript:saveData()" data-i18n="Download data" class="btn btn-default btn-sm">Download data</a>
+                        <button data-i18n="Download data" class="btn btn-default btn-sm save-data">Download data</button>
                     </p>
 				</div>
 			</div>
@@ -60,12 +60,6 @@
 
 			<div class="row">
 				<div class="col-md-12">
-
-<!--					<div class="appliedfilters">
-						<div class="appliedfilters-mark" data-i18n="Currently data displayed for filters:"></div>
-						<ul id="appliedFilters"></ul>
-					</div>-->
-
 				</div>
 			</div>
 			<div class="row">
@@ -99,12 +93,11 @@
 				</div>
 
 				<div class="col-md-1" align="right">
-					<a class="reset btn btn-primary btn-sm" id="reset" href="javascript:ResetAll()" data-i18n="Reset All"></a>
+					<button class="reset btn btn-primary btn-sm" data-i18n="Reset All"></button>
 				</div>
 
 			</div>
 			<div class="row">
-
 				<div class="col-md-4">
 					<h4 data-i18n="Filter by Activity"></h4>
 					<div id="activity" class="col-md-12"></div>
@@ -132,10 +125,6 @@
 						</div>
 					</div>
 				</div>
-				<!--<div class="col-md-4">
-					<h4>Filter by Donor (Top 20)</h4>
-					<div id="donor" class="col-md-12"></div>
-				</div>  -->
 			</div>
 			<div class="row">
 				<div class="col-md-6" align="left">
@@ -146,73 +135,29 @@
 				</div>
 
 				<div class="col-md-1" align="right">
-					<a class="reset btn btn-primary btn-sm" id="reset" href="javascript:ResetAll()" data-i18n="Reset All"></a>
+					<button class="reset btn btn-primary btn-sm" data-i18n="Reset All"></button>
 				</div>
 			</div>
-			<div class="row">
-				<!--
-				<div class="col-md-4">
-					<h4>Number of households Beneficiaries by Oblast</h4>
-					<div id="benefhh" class="row"></div>
-				</div>
-				<div class="col-md-4">
-					<h4>Number of individuals Beneficiaries by Oblast</h4>
-					<div id="benefind" class="row"></div>
-				</div>
-				-->
-			</div>
-			<!--
-			<div class="row">
-				<div class="col-md-6" align="left">
-				</div>
-
-				<div id="count-info1" class="col-md-5" align="right">
-					<h4><span class="filter-count"></span><span class="total-count"></span> </h4>
-				</div>
-
-				<div class="col-md-1" align="right">
-					<a class="reset btn btn-primary btn-sm" id="reset" href="javascript:ResetAll()">Reset All</a>
-				</div>
-			</div>
-			-->
-			<div class="row">
-				<div class="col-md-6">
-					<h4></h4>
-					<div id="temp" class="col-md-12"></div>
-				</div>
-			</div>
-
-			<!--
-			<div class="row">
-				<div class="col-md-6">
-					<h4></h4>
-					<div id="temp" class="col-md-12"></div>
-				</div>
-			</div>
-			-->
-
-
-
 <script>
 
     var projection = d3.geo.mercator().center([36,48]).scale(1900)
 
     var mapChart = dc.geoChoroplethChart("#map")
-    //, smallsuboffmapChart = dc.geoChoroplethChart("#map1")
-    //, distmapChart = dc.geoChoroplethChart("#map1")
-    //, timeChart = dc.lineChart("#temp")
+            //, smallsuboffmapChart = dc.geoChoroplethChart("#map1")
+            //, distmapChart = dc.geoChoroplethChart("#map1")
+            //, timeChart = dc.lineChart("#temp")
             , oblast_chart = dc.rowChart("#oblast")
             , cluster_chart = dc.rowChart("#cluster")
             , agency_chart = dc.rowChart("#agency")
             , partner_chart = dc.rowChart("#partner")
-    //, donor_chart = dc.rowChart("#donor")
+            //, donor_chart = dc.rowChart("#donor")
             , status_chart = dc.barChart("#status")
             , activity_chart = dc.rowChart("#activity")
-    //, dataTable = dc.dataTable("#dc-table-graph")
+            //, dataTable = dc.dataTable("#dc-table-graph")
             , area_chart = dc.barChart("#area")
-    //, raion_chart = dc.rowChart("#raion")
-            , benefhh_chart = dc.rowChart("#benefhh")
-            , benefind_chart = dc.rowChart("#benefind")
+            //, raion_chart = dc.rowChart("#raion")
+            //, benefhh_chart = dc.rowChart("#benefhh")
+            //, benefind_chart = dc.rowChart("#benefind")
             , startChart = dc.barChart("#date")
             , dataasofChart = dc.barChart("#dataasof");
 
@@ -253,7 +198,6 @@
         data.forEach(function (d) {
             d.dd = dateFormat.parse(d['ACTIVITY_START']);
             d.month = d.dd ? d3.time.month(d.dd) : null; // pre-calculate month for better performance
-{#            console.log(d3.time.month(d.dd))#}
         });
 
         var cf = crossfilter(data)
@@ -295,19 +239,15 @@
         cf.oblast = cf.dimension(function(d) {return d['ADMIN1_NAME_ENG'] });
         cf.agency = cf.dimension(function(d){ return d['org_name'] });
         cf.partner = cf.dimension(function(d){ return d['partner #1_name'] });
-        cf.start = cf.dimension(function(d) { return d['month'] })
-        var dataAsOfFormat = d3.time.format("%B %Y")
+        cf.start = cf.dimension(function(d) { return d['month'] });
+
+        var dataAsOfFormat = d3.time.format("%B %Y");
         cf.dataasof = cf.dimension(function(d) { return dataAsOfFormat(dateFormat.parse(d['Date'])) })
+
         cf.status = cf.dimension(function(d){ return d['status_name'] })
-        // cf.benefhh = cf.dimension(function(d){ return d.BENEF_HH })
-        // cf.benefind = cf.dimension(function(d){ return d.BENEF_IND })
         cf.cluster = cf.dimension(function(d){ return d['cluster_name'] })
-        // cf.donor = cf.dimension(function(d){ return d.DONOR })
         cf.activity = cf.dimension(function(d){ return d['ACTIVITY'] })
         cf.area = cf.dimension(function(d){ return d['area_type'] || t('Not specified') });
-        //cf.raion = cf.dimension(function(d){ return d.ADMIN2_ID; });
-        //cf.Annee2014 = cf.dimension(function(d){ return d.START_ACTIVITY; });
-        //cf.Annee2015 = cf.dimension(function(d){ return d.END_ACTIVITY; });
 
         var oblast = cf.oblast.group()
                 .reduceCount(function(d) { return d['ADMIN1_NAME_ENG'] });
@@ -315,37 +255,24 @@
         var cluster = cf.cluster.group()
                 .reduceCount(function(d) { return d['CLUSTER_ID'] }); // counts
 
-        // var donor = cf.donor.group()
-        // 	.reduceCount(function(d) { return d.DONOR; }); // counts
-
         var area = cf.area.group()
                 .reduceCount(function(d) { return d['area_type'] }) // counts
 
         var agency = cf.agency.group()
-                .reduceCount(function(d) { return d['org_name'] })
+                .reduceCount(function(d) { return d['org_name'] });
 
         var partner = cf.partner.group()
-                .reduceCount(function(d) { return d['partner #1_name'] })
+                .reduceCount(function(d) { return d['partner #1_name'] });
+
         var activity = cf.activity.group();
 
-        var benefhh = cf.oblast.group()
-                .reduceSum(function(d) { return d['BENEF_HH'] })// sum
-
-        var benefind = cf.oblast.group()
-                .reduceSum(function(d) { return d['BENEF_IND'] })// sum
-
         var status = cf.status.group();
-        //var raion = cf.raion.group();
 
         var startGroup = cf.start.group()
                 .reduceCount(function(d) { return d['month'] })
 
         var dataasofGroup = cf.dataasof.group()
-                .reduceCount(function(d) { return d['DATA_AS_OF'] })
-
-        //var A2014Group = cf.Annee2014.group();
-        //var A2015Group = cf.Annee2015.group();
-
+                .reduceCount(function(d) { return d['date'] })
 
         var all = cf.groupAll();
 
@@ -408,11 +335,11 @@
                 .colorDomain([0, 6])
                 .colorAccessor(function(d){
                     if (d=="undefined") {return 0}
-                    else if ((d>0) & (d<=250)) {return 1}
-                    else if ((d>251) & (d<=500)) {return 2}
-                    else if ((d>501) & (d<=1000)) {return 3}
-                    else if ((d>1001) & (d<=2000)) {return 4}
-                    else if ((d>2001) & (d<=4000)) {return 5}
+                    else if ((d>0) && (d<=250)) {return 1}
+                    else if ((d>251) && (d<=500)) {return 2}
+                    else if ((d>501) && (d<=1000)) {return 3}
+                    else if ((d>1001) && (d<=2000)) {return 4}
+                    else if ((d>2001) && (d<=4000)) {return 5}
                     else if (d>4000) {return 6}
                     else { return 0 }
                 })
@@ -432,34 +359,6 @@
                     filters[t('Map')] = mapChart.filters();
                     updateFilters(filters)
                 });
-
-
-        /*
-         distmapChart.width(500)
-         .height(400)
-         .dimension(distMapDim)
-         .group(distMapGroup)
-         .colors(d3.scale.quantize().range(["#E54143", "#C7C9CB",  "#464749"]))
-         .colorDomain([0, 200])
-         .colorCalculator(function (d) { return d ? mapChart.colors()(d) : '#ccc'; })
-         .overlayGeoJson(adm2.features, "state", function (d) {
-         return d.properties.ADM2_PCODE;
-         })
-         .projection(d3.geo.mercator().center([40,47]).scale(1500));
-
-
-         smallsuboffmapChart.width(500)
-         .height(400)
-         .dimension(SubOffMapDim)
-         .group(SubOffMapGroup)
-         .colors(d3.scale.quantize().range(["#E54143", "#C7C9CB",  "#464749"]))
-         .colorDomain([0, 200])
-         .colorCalculator(function (d) { return d ? mapChart.colors()(d) : '#ccc'; })
-         .overlayGeoJson(adm1.features, "state", function (d) {
-         return d.properties.ADM1_PCODE;
-         })
-         .projection(d3.geo.mercator().center([40,47]).scale(1500));
-         */
 
         cluster_chart.width(300)
                 .height(350)
@@ -520,51 +419,6 @@
                 })
                 .xAxis().ticks(4)
 
-        /*
-         donor_chart.width(300)
-         .height(350)
-         .margins({top: 10, right: 10, bottom: 40, left: 40})
-         .dimension(cf.donor)
-         .group(donor)
-         .elasticX(true)
-         .data(function(group) {
-         return group.top(20);
-         })
-         .colors(['#E54143'])
-         .colorDomain([0,6])
-         .colorAccessor(function(d, i){return i%6;})
-         .xAxis().ticks(5);
-         */
-
-        benefhh_chart.width(300)
-                .height(500)
-                .margins({top: 10, right: 10, bottom: 40, left: 40})
-                .dimension(cf.oblast)
-                .group(benefhh)
-                .elasticX(true)
-                .data(function(group) {
-                    return group.top(28);
-                })
-                .colors(['#026CB6'])
-                .colorDomain([0,2])
-                .colorAccessor(function(d, i){return i%2;})
-                .xAxis().ticks(4);
-
-
-        benefind_chart.width(300)
-                .height(500)
-                .margins({top: 10, right: 10, bottom: 40, left: 40})
-                .dimension(cf.oblast)
-                .group(benefind)
-                .elasticX(true)
-                .data(function(group) {
-                    return group.top(28);
-                })
-                .colors(['#026CB6'])
-                .colorDomain([0,2])
-                .colorAccessor(function(d, i){return i%2;})
-                .xAxis().ticks(4);
-
         status_chart.width(300)
                 .height(350)
                 .margins({top: 10, right: 10, bottom: 35, left: 40})
@@ -601,28 +455,11 @@
                 .xAxisLabel(t('Area type'))
                 .yAxisLabel(t('# of activities by area'))
                 .on('filtered', function(chart, filter) {
-                    var filters = {}
-                    filters[t('Area')] = area_chart.filters()
-                    updateFilters(filters)
+                    var filters = {};
+                    filters[t('Area')] = area_chart.filters();
+                    updateFilters(filters);
                 })
-                .xAxis().tickFormat()
-
-
-        /*
-         Annee2014_chart
-         .dimension(cf.Annee2014)
-         .group(A2014Group)
-         .width(65).height(80)
-         .innerRadius(10)
-         .colors(d3.scale.ordinal().range(  [ '#999999', '#FF6600']));
-
-         Annee2015_chart
-         .dimension(cf.Annee2015)
-         .group(A2015Group)
-         .width(65).height(80)
-         .innerRadius(10)
-         .colors(d3.scale.ordinal().range(  [ '#999999', '#FF6600']));
-         */
+                .xAxis().tickFormat();
 
 
         activity_chart.width(300).height(activity.size() * 20 + 55)
@@ -659,19 +496,6 @@
                 })
                 .xAxis().ticks(4)
 
-        /*
-         timeChart.width(500)
-         .height(200)
-         .margins({top: 10, right: 40, bottom: 40, left: 40})
-         .dimension(cf.start)
-         .group(startGroup)
-         .transitionDuration(10000000)
-         .elasticY(true)
-         .x(d3.time.scale().domain([new Date(2016, 1, 1), new Date(2016, 2, 1)]))
-         .xAxisLabel('Date')
-         .yAxisLabel('# of activities by date');
-         */
-
         startChart.width(350)
                 .height(220)
                 .margins({top: 30, right: 10, bottom: 40, left: 40})
@@ -680,8 +504,7 @@
                 .transitionDuration(500)
                 .centerBar(true)
                 .colors("#026CB6")
-                .gap(65)  // 65 = norm
-            // .filter([3, 5])
+                .gap(65)
                 .x(d3.time.scale().domain([new Date(2013, 12, 1), new Date(2016, 6, 1)]))
                 .elasticY(true)
                 .xAxisLabel(t('Date'))
@@ -697,7 +520,6 @@
                     updateFilters(filters)
                 })
                 .xAxis().ticks(4)
-        //.xAxis().tickFormat()
 
         dataasofChart.width(350)
                 .height(220)
@@ -707,9 +529,8 @@
                 .transitionDuration(500)
                 .centerBar(false)
                 .colors("#026CB6")
-                .gap(50)  // 65 = norm
-            // .filter([3, 5])
-                .x(d3.scale.ordinal()) // .domain(["January 2016","February 2016"]))
+                .gap(50)
+                .x(d3.scale.ordinal())
                 .xUnits(dc.units.ordinal)
                 .elasticY(true)
                 .xAxisLabel(t('Month'))
@@ -719,68 +540,7 @@
                     filters[t('Data As Of')] = dataasofChart.filters()
                     updateFilters(filters)
                 })
-                .xAxis().tickFormat()
-
-
-        /*
-         status_chart.width(300)
-         .height(350)
-         .margins({top: 10, right: 10, bottom: 35, left: 40})
-         .dimension(cf.status)
-         .group(status)
-         .transitionDuration(500)
-         .centerBar(false)
-         .gap(40) // 65 = norm
-         .colors("#E54143")
-         .x(d3.scale.ordinal().domain(["Completed", "Ongoing", "Planned", "Suspended"]))
-         .xUnits(dc.units.ordinal)
-         .elasticY(true)
-         .xAxisLabel('Status')
-         .yAxisLabel('# of activities by status')
-         .xAxis().tickFormat();
-         */
-
-
-        /*
-         raion_chart.width(250).height(1250)
-         .margins({top: 0, left: 10, right: 0, bottom: 40})
-         .dimension(cf.commune)
-         .group(commune)
-         .elasticX(true)
-         .data(function(group) {
-         return group.top(80);
-         })
-         .colors(['#7f7f7f', '#bc9d22', '#17becf', '#427f0e', '#9467bd', '#c49c94', '#8c564b', '#fcbd22', '#9e9ac8', '#7f7f7f', '#bcbd22', '#17becf', '#ff7f0e'])
-         .colorDomain([0,12])
-         .colorAccessor(function(d, i){return i%12;})
-         .xAxis().ticks(5);
-         */
-
-
-        /*
-         dataTable.width(800).height(800)
-         .dimension(cf.oblast)
-         .group(function(d) { return "" })
-         .size(200)
-         .columns([
-         function(d) { return d.CLUSTER_ID; },
-         function(d) { return d.AGENCY; },
-         function(d) { return d.PARTNER; },
-         function(d) { return d.ADMIN1_ID; },
-         function(d) { return d.ADMIN2_ID; },
-         // function(d) { return d.STATUS_ACTIVITY; },
-         // function(d) { return d.START_ACTIVITY; },
-         function(d) { return d.END_ACTIVITY; },
-         function(d) { return d.BENEFICIARIES_HH; },
-         function(d) { return d.BENEFICIARIES_IND; },
-         function(d) { return '<a target="_blank" href=cartes/2014/'+d.carte2014+">PDF</a>"},
-         function(d) { return '<a target="_blank" href=cartes/2015/'+d.carte2015+">PDF</a>"},
-         function(d) { return '<a href=\"http://www.openstreetmap.org/?mlat=' + d.Latitude + '&mlon=' + d.Longitude +'&zoom=10'+ "\" target=\"_blank\">OSM Map</a>"},
-         function(d) { return '<a href=\"http://maps.google.com/maps?m=10000&t=m&q=loc:' + d.Latitude + '+' + d.Longitude +"\" target=\"_blank\">Google Map</a>"},
-         ])
-         .sortBy(function(d){ return d.CLUSTER_ID; })
-         .order(d3.ascending);
-         */
+                .xAxis().tickFormat();
 
         dc.dataCount("#count-info")
                 .dimension(cf)
@@ -972,6 +732,14 @@
         console.log(Columns[column])
 
     }
+
+    $('button.reset').on('click', function(e) {
+        ResetAll();
+    });
+
+    $('button.save-data').on('click', function(e) {
+        saveData();
+    });
 
 
 
