@@ -20,6 +20,7 @@ class MasterDataSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
               'date'
             , 'cluster_name'
+            , 'org_name'
             , 'partner1_name'
             , 'partner2_name'
             , 'admin1_id'
