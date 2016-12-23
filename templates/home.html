@@ -27,6 +27,8 @@
     </div>
 
     <div class="content">
+
+        {# Controls #}
         <div class="row">
             <div class="col-md-6" align="left">
                 <h4 data-i18n="Data from August 2016"></h4>
@@ -43,6 +45,7 @@
                 <button class="reset btn btn-primary btn-sm" data-i18n="Reset All"></button>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-12" >
                 <p>
@@ -50,6 +53,7 @@
                 </p>
             </div>
         </div>
+
         <div class="row">
 
             <div class="col-md-12">
@@ -58,10 +62,8 @@
             </div>
 
         </div>
-        <div class="row">
-            <div class="col-md-12">
-            </div>
-        </div>
+
+        {# Controls #}
         <div class="row">
             <div class="row">
                 <div class="col-md-8 col-xs-12" id="map"></div>
@@ -74,16 +76,17 @@
                     <h4 data-i18n="Filter by Status"></h4>
                     <div id="status" class="row"></div>
                 </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <h4 data-i18n="Filter by Cluster"></h4>
+                    <div id="cluster" class="col-md-12"></div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <h4 data-i18n="Filter by GCA / NGCA"></h4>
+                    <div id="area" class="row"></div>
+                </div>
             </div>
 
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <h4 data-i18n="Filter by Cluster"></h4>
-                <div id="cluster" class="col-md-12"></div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <h4 data-i18n="Filter by GCA / NGCA"></h4>
-                <div id="area" class="row"></div>
-            </div>
+
 
             <div class="col-md-4 col-sm-12 col-xs-12">
                 <h4 data-i18n="Filter by Activity"></h4>
@@ -100,16 +103,23 @@
                 </div>
             </div>
 
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <h4 data-i18n="Number of activities reported by month"></h4>
-                <h5 data-i18n="Data as of"></h5>
-                <div id="dataasof" class="row"></div>
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <h4 data-i18n="Number of activities reported by month"></h4>
+                    <h5 data-i18n="Data as of"></h5>
+                    <div id="dataasof" class="row"></div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <h4 data-i18n="Number of activities reported by month"></h4>
+                    <h5 data-i18n="Start data activity"></h5>
+                    <div id="date" class="row"></div>
+                </div>
+
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <h4 data-i18n="Number of activities reported by month"></h4>
-                <h5 data-i18n="Start data activity"></h5>
-                <div id="date" class="row"></div>
-            </div>
+
+
+
+
         </div>
 
     </div>

@@ -142,7 +142,8 @@ def test(request):
 @login_required
 @user_passes_test(check_access, login_url='../login/')
 def donbas_ngca(request):
-    return render_to_response(
+    return render(
+        request,
         'donbas.html',
         { 'user': request.user,
           'access': check_access(request.user),
