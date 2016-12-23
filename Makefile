@@ -9,5 +9,5 @@ build:
 run:
 	docker-compose up -d
 
-status
+status:
 	docker ps
