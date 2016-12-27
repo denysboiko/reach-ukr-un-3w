@@ -523,13 +523,13 @@
                         var res = filter
 
                         if(res && res.length > 0) {
-                            var res = [dateFormat(res[0]) + "&ndash;" + dateFormat(res[1])]
+                            res = [dateFormat(res[0]) + " - " + dateFormat(res[1])]
                         }
-                        var filters = {}
-                        filters[t('Start')] = oblast_chart.filters()
+                        var filters = {};
+                        filters[t('Start')] = res;
                         updateFilters(filters)
                     })
-                    .xAxis().ticks(4)
+                    .xAxis().ticks(4);
 
             dataasofChart.width(350)
                     .height(220)
@@ -546,8 +546,8 @@
                     .xAxisLabel(t('Month'))
                     .yAxisLabel(t('# of activities by date'))
                     .on('filtered', function(chart, filter) {
-                        var filters = {}
-                        filters[t('Data As Of')] = dataasofChart.filters()
+                        var filters = {};
+                        filters[t('Data As Of')] = dataasofChart.filters();
                         updateFilters(filters)
                     })
                     .xAxis().tickFormat();
@@ -591,7 +591,7 @@
                 var mapSVG = d3.select("#map svg")
                         , container = mapSVG.append("g")
 
-                var color = "#e01f22"
+                var color = "#e01f22";
 
                 mapSVG
                         .append("defs")

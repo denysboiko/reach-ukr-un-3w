@@ -14,7 +14,7 @@ router.register(r'data', MasterDataViewSet)
 
 urlpatterns = [
 
-    url(r'^$', home),
+    url(r'^$', test),
     url(r'^logout/$', logout_page),
     url(r'^login/$', auth_views.login),
     url(r'^accounts/login/$', auth_views.login),
@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^data/', users_json),
     # url(r'^accounts/', include('registration.backends.hmac.urls')),
-    url(r'^test/', test),
+    url(r'^test/', home),
     # url(r'^data-raw/$', MasterDataViewJSON.as_view()),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
