@@ -88,6 +88,7 @@ def register(request):
 
 def register_success(request):
     return render(
+        request,
         'registration/success.html',
     )
 
