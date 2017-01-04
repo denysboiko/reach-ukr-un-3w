@@ -1,11 +1,7 @@
-*.xml
 *.DS_Store
 .idea/
-
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
-
-# Python
 *.pyc
+.elasticbeanstalk/
+WWW_Dashboard/static/admin/
+WWW_Dashboard/static/data/MasterData.json
+models-exist.py
