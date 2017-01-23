@@ -17,9 +17,11 @@ window.saveData = function() {
         , 'BENEF_IND'
         , 'Oblast_Name'
         , 'Raion_Name'
-    ]
+    ];
 
-    var data = cf.dataasof.top(Infinity)
+    var data = cf.dataasof.top(Infinity);
+
+
 
     data = data.map(function(record) {
         return [
@@ -41,13 +43,13 @@ window.saveData = function() {
             , record['Oblast_Name']
             , record['Raion_Name']
         ]
-    })
+    });
 
-    data.unshift(header)
+    data.unshift(header);
 
-    var res = d3.csv.formatRows(data)
+    var res = d3.csv.formatRows(data);
 
-    var blob = new Blob([res], {type: "text/csv;charset=utf-8"})
+    var blob = new Blob([res], {type: "text/csv;charset=utf-8"});
 
-    saveAs(blob, 'ukraine-3w-oblast-dataset-' + (new Date()).getTime() + '.csv')
-}
+    // saveAs(blob, 'ukraine-3w-oblast-dataset-' + (new Date()).getTime() + '.csv')
+};

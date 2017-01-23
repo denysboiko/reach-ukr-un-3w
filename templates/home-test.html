@@ -303,7 +303,9 @@
                     , 'number_reached'
                 ];
 
-            var data = cf.dataasof.top(Infinity)
+            var data = cf.dataasof.top(Infinity);
+            console.log(cf);
+            console.log(data);
 
             data = data.map(function(record) {
                 return [
@@ -323,13 +325,13 @@
                 ]
             });
 
-            data.unshift(header)
+            data.unshift(header);
 
-            var res = d3.csv.formatRows(data)
+            var res = d3.csv.formatRows(data);
 
-            var blob = new Blob([res], {type: "text/csv;charset=utf-8"})
+            var blob = new Blob([res], {type: "text/csv;charset=utf-8"});
 
-            saveAs(blob, 'ukraine-3w-dataset-' + (new Date()).getTime() + '.csv')
+            //saveAs(blob, 'ukraine-3w-dataset-' + (new Date()).getTime() + '.csv')
 
         };
 
@@ -705,6 +707,7 @@
         });
 
     </script>
+    {% comment %}<script src="{% static 'js/saveData.js' %}"></script>{% endcomment %}
     <script type="text/javascript">
         var Charts = {
 

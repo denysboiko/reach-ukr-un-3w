@@ -8,10 +8,12 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ('url', 'username', 'email', 'groups')
 
+
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ('url', 'name')
+
 
 class MasterDataSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -34,6 +36,8 @@ class MasterDataSerializer(serializers.HyperlinkedModelSerializer):
             , 'activity_end'
             , 'number_reached'
         )
+
+
 class MasterDataSerializerRaw(serializers.Serializer):
     class Meta:
         model = Wwwdata

@@ -302,7 +302,8 @@
 
             var all = cf.groupAll();
 
-            window.saveData = function() {
+            {% comment %}window.saveData = function() {
+
                 var header = [
                     'Date'
                     , 'cluster_name'
@@ -317,13 +318,14 @@
                     , 'ACTIVITY_START'
                     , 'ACTIVITY_END'
                     , 'NUMBER_REACHED'
-                ]
+                ];
 
-                var data = cf.dataasof.top(Infinity)
+                var data = cf.dataasof.top(Infinity);
 
                 data = data.map(function(record) {
                     return [
-                        record['Date']
+
+                          record['Date']
                         , record['cluster_name']
                         , record['org_name']
                         , record['partner #1_name']
@@ -336,18 +338,19 @@
                         , record['ACTIVITY_START']
                         , record['ACTIVITY_END']
                         , record['NUMBER_REACHED']
+
                     ]
-                })
+                });
 
-                data.unshift(header)
+                data.unshift(header);
 
-                var res = d3.csv.formatRows(data)
+                var res = d3.csv.formatRows(data);
 
-                var blob = new Blob([res], {type: "text/csv;charset=utf-8"})
+                var blob = new Blob([res], {type: "text/csv;charset=utf-8"});
 
                 saveAs(blob, 'ukraine-3w-dataset-' + (new Date()).getTime() + '.csv')
 
-            }
+            };{% endcomment %}
 
 
 
