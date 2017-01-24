@@ -14,7 +14,7 @@ router.register(r'data', MasterDataViewSet)
 
 urlpatterns = [
 
-    url(r'^$', test),
+    url(r'^$', home),
     url(r'^logout/$', logout_page),
     url(r'^login/$', auth_views.login),
     url(r'^accounts/login/$', auth_views.login),

@@ -97,22 +97,6 @@ def logout_page(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-# def home(request):
-#     return render_to_response(
-#         'home.html',
-#         { 'user': request.user }
-#     )
-
-
-def home(request):
-    return render(
-        request,
-        'home.html',
-        { 'user': request.user,
-          'access': check_access(request.user)
-        }
-    )
-
 
 def check_access(user):
     if user:
@@ -130,10 +114,10 @@ def donbas(request):
         }
     )
 
-def test(request):
+def home(request):
     return render(
         request,
-        'home-test.html',
+        'index.html',
         { 'user': request.user,
           'access': check_access(request.user),
           'data': '../data/?format=json'
