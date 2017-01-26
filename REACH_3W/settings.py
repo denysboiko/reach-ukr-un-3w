@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'rest_framework',
     'WWW_Dashboard'
-
 ]
 
 REST_FRAMEWORK = {
@@ -136,8 +135,8 @@ else:
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'ebdb',
             'USER': 'postgres',
-            'PASSWORD': 'django2016',
-            'HOST': 'aa7165x417nka7.cegqdc7fq3bu.eu-west-1.rds.amazonaws.com',
+            'PASSWORD': '5pDAEUrnjpYJ',
+            'HOST': 'aa18gsquhdbopgf.cjzycczlrnst.eu-west-1.rds.amazonaws.com',
             'PORT': '5432',
         }
     }
