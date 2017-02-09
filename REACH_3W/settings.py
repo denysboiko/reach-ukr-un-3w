@@ -93,18 +93,6 @@ WSGI_APPLICATION = 'REACH_3W.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': BASE_DIR + '/loginapp.sqlite',  # Or path to database file if using sqlite3.
-#         # The following settings are not used with sqlite3:
-#         'USER': '',
-#         'PASSWORD': '',
-#         'HOST': '',   # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-#         'PORT': '',   # Set to empty string for default.
-#     }
-# }
-
 # Setup for AWS Elastic Beanstalk Environment
 
 if 'RDS_DB_NAME' in os.environ:
@@ -129,17 +117,8 @@ elif 'LOCAL_ENV' in os.environ:
             'PORT': '5432',
         }
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'ebdb',
-            'USER': 'postgres',
-            'PASSWORD': '5pDAEUrnjpYJ',
-            'HOST': 'aa18gsquhdbopgf.cjzycczlrnst.eu-west-1.rds.amazonaws.com',
-            'PORT': '5432',
-        }
-    }
+# else:
+
 
 
 # Password validation
