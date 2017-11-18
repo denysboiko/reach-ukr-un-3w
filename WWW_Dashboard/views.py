@@ -108,7 +108,7 @@ def donbas(request):
     return render(
         request,
         'donbas.html',
-        { 'user': request.user ,
+        { 'user': request.user,
           'access': check_access(request.user),
           'data': '../data-gca/?format=json'
         }
@@ -152,6 +152,13 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
+class DBConfig(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
 
 class MasterDataViewSetGCA(viewsets.ReadOnlyModelViewSet):
     """
@@ -173,6 +180,7 @@ class MasterDataViewSetNGCA(viewsets.ReadOnlyModelViewSet):
     serializer_class = MasterDataSerializer
     pagination_class = None
 
+
 class MasterDataViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows to view the data.
@@ -191,8 +199,10 @@ class MasterDataViewJSON(APIView):
     renderer_classes = (JSONRenderer,)
 
     def get(self, request, *args, **kwargs):
+
         queryset = Wwwdata.objects.filter(area_type='NGCA')
         result = MasterDataSerializerRaw(queryset)
+
         print result
         return Response(result.data)
 

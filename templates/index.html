@@ -19,31 +19,31 @@
     <br>
 
     <div class="row" align="justify">
-        <div class="col-md-12" >
+        <div class="col-md-12">
             <p data-i18n="In response to the humanitarian crisis in Ukraine countless volunteers, as well as many international humanitarian actors, including the United Nations system, national and international NGOs, and other international organizations, are engaged in the humanitarian relief effort. In December 2014 the cluster system was activated, with 8 clusters engaging in life-saving activities throughout the country. This 3W (WHO is doing WHAT WHERE) captures the presence of partners currently on the ground in each oblast.">
             </p>
-            <div id = "spinner-box"></div>
+            <div id="spinner-box"></div>
         </div>
     </div>
 
     <div class="content">
         <div class="row">
-        <div class="col-md-6" align="left">
-            <h4 data-i18n="Data from August 2016"></h4>
-        </div>
-        <div id="count-info" class="col-md-5" align="right">
+            <div class="col-md-6" align="left">
+                <h4 data-i18n="Data from August 2016"></h4>
+            </div>
+            <div id="count-info" class="col-md-5" align="right">
 
-            <h4>
-                <span class="filter-count"></span>
-                <span data-i18n="Activities selected of"></span>
-                <span class="total-count"></span></h4>
+                <h4>
+                    <span class="filter-count"></span>
+                    <span data-i18n="Activities selected of"></span>
+                    <span class="total-count"></span></h4>
+            </div>
+            <div class="col-md-1" align="right">
+                <button class="reset btn btn-primary btn-sm" data-i18n="Reset All"></button>
+            </div>
         </div>
-        <div class="col-md-1" align="right">
-            <button class="reset btn btn-primary btn-sm" data-i18n="Reset All"></button>
-        </div>
-    </div>
         <div class="row">
-            <div class="col-md-12" >
+            <div class="col-md-12">
                 <p>
                     <button data-i18n="Download data" class="btn btn-default btn-sm save-data">Download data</button>
                 </p>
@@ -53,7 +53,7 @@
 
             <div class="col-md-12">
                 <label for="filters">Currently data displayed for filters:</label>
-                <input id = "filters"  type="text" data-role="tagsinput"/>
+                <input id="filters" type="text" data-role="tagsinput"/>
             </div>
 
         </div>
@@ -80,7 +80,7 @@
                 <div id="cluster" class="col-md-12"></div>
             </div>
             <div class="col-md-4">
-            <h4 data-i18n="Filter by GCA / NGCA"></h4>
+                <h4 data-i18n="Filter by GCA / NGCA"></h4>
                 <div id="area" class="row"></div>
             </div>
         </div>
@@ -88,7 +88,7 @@
             <div class="col-md-6" align="left">
             </div>
             <div id="count-info" class="col-md-5" align="right">
-                <h4><span class="filter-count"></span><span class="total-count"></span> </h4>
+                <h4><span class="filter-count"></span><span class="total-count"></span></h4>
             </div>
 
             <div class="col-md-1" align="right">
@@ -142,54 +142,56 @@
 
     <script>
 
-        var projection = d3.geo.mercator().center([36,48]).scale(1900)
+        var projection = d3.geo.mercator().center([36, 48]).scale(1900)
 
         var mapChart = dc.geoChoroplethChart("#map")
-                //, smallsuboffmapChart = dc.geoChoroplethChart("#map1")
-                //, distmapChart = dc.geoChoroplethChart("#map1")
-                //, timeChart = dc.lineChart("#temp")
-                , oblast_chart = dc.rowChart("#oblast")
-                , cluster_chart = dc.rowChart("#cluster")
-                , agency_chart = dc.rowChart("#agency")
-                , partner_chart = dc.rowChart("#partner")
-                //, donor_chart = dc.rowChart("#donor")
-                , status_chart = dc.barChart("#status")
-                , activity_chart = dc.rowChart("#activity")
-                //, dataTable = dc.dataTable("#dc-table-graph")
-                , area_chart = dc.barChart("#area")
-                //, raion_chart = dc.rowChart("#raion")
-                //, benefhh_chart = dc.rowChart("#benefhh")
-                //, benefind_chart = dc.rowChart("#benefind")
-                , startChart = dc.barChart("#date")
-                , dataasofChart = dc.barChart("#dataasof");
+            //, smallsuboffmapChart = dc.geoChoroplethChart("#map1")
+            //, distmapChart = dc.geoChoroplethChart("#map1")
+            //, timeChart = dc.lineChart("#temp")
+            , oblast_chart = dc.rowChart("#oblast")
+            , cluster_chart = dc.rowChart("#cluster")
+            , agency_chart = dc.rowChart("#agency")
+            , partner_chart = dc.rowChart("#partner")
+            //, donor_chart = dc.rowChart("#donor")
+            , status_chart = dc.barChart("#status")
+            , activity_chart = dc.rowChart("#activity")
+            //, dataTable = dc.dataTable("#dc-table-graph")
+            , area_chart = dc.barChart("#area")
+            //, raion_chart = dc.rowChart("#raion")
+            //, benefhh_chart = dc.rowChart("#benefhh")
+            //, benefind_chart = dc.rowChart("#benefind")
+            , startChart = dc.barChart("#date")
+            , dataasofChart = dc.barChart("#dataasof");
 
 
-     var load = function(dataToLoad, target, callback) {
+        var load = function (dataToLoad, target, callback) {
 
-                var spinner = new Spinner();
-                spinner.spin(target);
-                $('.content').css('display','none');
-                //$(target).css('height','50px');
+            var spinner = new Spinner();
+            spinner.spin(target);
+            $('.content').css('display', 'none');
+            //$(target).css('height','50px');
 
-                $.each(dataToLoad, function(name, item) {
-                    item.state = 'pending';
-                    item.loader(item.url, function(error, data) {
+            $.each(dataToLoad, function (name, item) {
+                item.state = 'pending';
+                item.loader(item.url, function (error, data) {
 
-                        item.state = error ? 'error' : 'done';
-                        item.data = error ? error : data;
+                    item.state = error ? 'error' : 'done';
+                    item.data = error ? error : data;
 
-                        spinner.stop();
-                        $('.content').css('display','');
-                        //$(target).css('height','');
+                    spinner.stop();
+                    $('.content').css('display', '');
+                    //$(target).css('height','');
 
-                        for(var name in dataToLoad) {
-                            if(dataToLoad[name].state == 'pending') { return }
+                    for (var name in dataToLoad) {
+                        if (dataToLoad[name].state == 'pending') {
+                            return
                         }
+                    }
 
-                        callback(dataToLoad)
-                    })
+                    callback(dataToLoad)
                 })
-            };
+            })
+        };
 
         var dataToLoad = {
             //data: {loader: d3.csv, url: "{% static 'data/Master_Table_Data_August_2016.csv' %}"}
@@ -198,7 +200,7 @@
 
         var target = document.getElementById('spinner-box');
 
-        load(dataToLoad, target, function(result) {
+        load(dataToLoad, target, function (result) {
 
             var data = result.data.data;
             var dateFormat = d3.time.format('%Y-%m-%d');
@@ -215,9 +217,9 @@
             // 	, distMapGroup = distMapDim.group();
 
             var Columns = {
-                'Date' : 'date',
-                'cluster_name' : 'cluster_name',
-                'org_name' : 'org_name',
+                'Date': 'date',
+                'cluster_name': 'cluster_name',
+                'org_name': 'org_name',
                 'partner #1_name': 'partner1_name',
                 'partner #2_name': 'partner2_name',
                 'ADMIN1_ID': 'admin1_id',
@@ -233,31 +235,59 @@
                 'COMMENTS': 'comments'
             };
 
-            cf.oblast = cf.dimension(function(d) { return d['admin1_name_eng'] });
-            cf.agency = cf.dimension(function(d) { return d['org_name'] });
-            cf.partner = cf.dimension(function(d) { return d['partner1_name'] });
-            cf.start = cf.dimension(function(d) { return d['month'] });
+            cf.oblast = cf.dimension(function (d) {
+                return d['admin1_name_eng']
+            });
+            cf.agency = cf.dimension(function (d) {
+                return d['org_name']
+            });
+            cf.partner = cf.dimension(function (d) {
+                return d['partner1_name']
+            });
+            cf.start = cf.dimension(function (d) {
+                return d['month']
+            });
             var dataAsOfFormat = d3.time.format("%B %Y");
-            cf.dataasof = cf.dimension(function(d) { return dataAsOfFormat(dateFormat.parse(d['date'])) });
-            cf.status = cf.dimension(function(d) { return d['status_name'] });
-            cf.cluster = cf.dimension(function(d) { return d['cluster_name'] });
-            cf.activity = cf.dimension(function(d) { return d['activity'] });
-            cf.area = cf.dimension(function(d) { return d['area_type'] || t('Not specified') });
+            cf.dataasof = cf.dimension(function (d) {
+                return dataAsOfFormat(dateFormat.parse(d['date']))
+            });
+            cf.status = cf.dimension(function (d) {
+                return d['status_name']
+            });
+            cf.cluster = cf.dimension(function (d) {
+                return d['cluster_name']
+            });
+            cf.activity = cf.dimension(function (d) {
+                return d['activity']
+            });
+            cf.area = cf.dimension(function (d) {
+                return d['area_type'] || t('Not specified')
+            });
 
             var oblast = cf.oblast.group()
-                    .reduceCount(function(d) { return d['admin1_name_eng']; });
+                .reduceCount(function (d) {
+                    return d['admin1_name_eng'];
+                });
 
             var cluster = cf.cluster.group()
-                    .reduceCount(function(d) { return d['cluster_id']; }); // counts
+                .reduceCount(function (d) {
+                    return d['cluster_id'];
+                }); // counts
 
             var area = cf.area.group()
-                    .reduceCount(function(d) { return d['area_type']; }); // counts
+                .reduceCount(function (d) {
+                    return d['area_type'];
+                }); // counts
 
             var agency = cf.agency.group()
-                    .reduceCount(function(d) { return d['org_name']; });
+                .reduceCount(function (d) {
+                    return d['org_name'];
+                });
 
             var partner = cf.partner.group()
-                    .reduceCount(function(d) { return d['partner1_name']; });
+                .reduceCount(function (d) {
+                    return d['partner1_name'];
+                });
 
             var activity = cf.activity.group();
 
@@ -279,14 +309,18 @@
             // 	.reduceCount(function(d) { return d.Raion_Name; });
 
             var startGroup = cf.start.group()
-                    .reduceCount(function(d) { return d['month']; });
+                .reduceCount(function (d) {
+                    return d['month'];
+                });
 
             var dataasofGroup = cf.dataasof.group()
-                    .reduceCount(function(d) { return d['date']; });
+                .reduceCount(function (d) {
+                    return d['date'];
+                });
 
             var all = cf.groupAll();
 
-            window.saveData = function() {
+            window.saveData = function () {
                 var header = [
                     'date'
                     , 'cluster_name'
@@ -303,60 +337,76 @@
                     , 'number_reached'
                 ];
 
-            var data = cf.dataasof.top(Infinity);
-            console.log(cf);
-            console.log(data);
+                var data = cf.dataasof.top(Infinity);
+                console.log(cf);
+                console.log(data);
 
-            data = data.map(function(record) {
-                return [
-                    record['date']
-                    , record['cluster_name']
-                    , record['org_name']
-                    , record['partner1_name']
-                    , record['partner2_name']
-                    , record['admin1_name_eng']
-                    , record['admin2_name_ukr']
-                    , record['area_type']
-                    , record['status_name']
-                    , record['activity']
-                    , record['activity_start']
-                    , record['activity_end']
-                    , record['number_reached']
-                ]
-            });
+                data = data.map(function (record) {
+                    return [
+                        record['date']
+                        , record['cluster_name']
+                        , record['org_name']
+                        , record['partner1_name']
+                        , record['partner2_name']
+                        , record['admin1_name_eng']
+                        , record['admin2_name_ukr']
+                        , record['area_type']
+                        , record['status_name']
+                        , record['activity']
+                        , record['activity_start']
+                        , record['activity_end']
+                        , record['number_reached']
+                    ]
+                });
 
-            data.unshift(header);
+                data.unshift(header);
 
-            var res = d3.csv.formatRows(data);
+                var res = d3.csv.formatRows(data);
 
-            var blob = new Blob([res], {type: "text/csv;charset=utf-8"});
+                var blob = new Blob([res], {type: "text/csv;charset=utf-8"});
 
-            //saveAs(blob, 'ukraine-3w-dataset-' + (new Date()).getTime() + '.csv')
+                //saveAs(blob, 'ukraine-3w-dataset-' + (new Date()).getTime() + '.csv')
 
-        };
+            };
 
 
-
+            exclude = ['8500000000', '0100000000'];
 
             mapChart.width(700)
-                    .height(450)
+                .height(450)
 
-                    .dimension(cf.oblast)
-                    .group(oblast)
-                    .colors(['#dddddd', '#C6DBEF', '#9ECAE1', '#6BAEF1', '#4292C6', '#2171B5', '#084594'])
-                    .colorDomain([0, 6])
-                    .colorAccessor(function(d){
-                        if (d=="undefined") {return 0}
-                        else if ((d>0) && (d<=250)) {return 1}
-                        else if ((d>251) && (d<=500)) {return 2}
-                        else if ((d>501) && (d<=1000)) {return 3}
-                        else if ((d>1001) && (d<=2000)) {return 4}
-                        else if ((d>2001) && (d<=4000)) {return 5}
-                        else if (d>4000) {return 6}
-                        else { return 0 }
-                    })
-                    .overlayGeoJson(
-                    adm1.features.filter(function(feature) {
+                .dimension(cf.oblast)
+                .group(oblast)
+                .colors(['#dddddd', '#C6DBEF', '#9ECAE1', '#6BAEF1', '#4292C6', '#2171B5', '#084594'])
+                .colorDomain([0, 6])
+                .colorAccessor(function (d) {
+                    if (d == "undefined") {
+                        return 0
+                    }
+                    else if ((d > 0) && (d <= 250)) {
+                        return 1
+                    }
+                    else if ((d > 251) && (d <= 500)) {
+                        return 2
+                    }
+                    else if ((d > 501) && (d <= 1000)) {
+                        return 3
+                    }
+                    else if ((d > 1001) && (d <= 2000)) {
+                        return 4
+                    }
+                    else if ((d > 2001) && (d <= 4000)) {
+                        return 5
+                    }
+                    else if (d > 4000) {
+                        return 6
+                    }
+                    else {
+                        return 0
+                    }
+                })
+                .overlayGeoJson(
+                    adm1.features.filter(function (feature) {
                         // don't show Sevastopol and AR Krym in chart. It's drowind separately at the end of script.
                         return feature.properties.KOATUU != "8500000000" && feature.properties.KOATUU != "0100000000"
                     })
@@ -364,199 +414,216 @@
                     , function (d) {
                         return d.properties.NAME_LAT;
                     }
-            )
-                    .projection(projection)
-                    .on('filtered', function(chart, filter) {
-                        var filters = {};
-                        filters[t('Map')] = mapChart.filters();
-                        updateFilters(filters)
-                    });
+                )
+                .projection(projection)
+                .on('filtered', function (chart, filter) {
+                    var filters = {};
+                    filters[t('Map')] = mapChart.filters();
+                    updateFilters(filters)
+                });
 
             cluster_chart.width(300)
-                    .height(350)
-                    .margins({top: 10, right: 10, bottom: 40, left: 40})
-                    .dimension(cf.cluster)
-                    .group(cluster)
-                    .elasticX(true)
-                    .data(function(group) {
-                        return group.top(10);
-                    })
-                    .colors(['#026CB6'])
-                    .colorDomain([0,6])
-                    .colorAccessor(function(d, i){return i%6;})
-                    .on('filtered', function(chart, filter) {
-                        var filters = {}
-                        filters[t('Cluster')] = cluster_chart.filters();
-                        updateFilters(filters)
-                    })
-                    .xAxis().ticks(4)
+                .height(350)
+                .margins({top: 10, right: 10, bottom: 40, left: 40})
+                .dimension(cf.cluster)
+                .group(cluster)
+                .elasticX(true)
+                .data(function (group) {
+                    return group.top(10);
+                })
+                .colors(['#026CB6'])
+                .colorDomain([0, 6])
+                .colorAccessor(function (d, i) {
+                    return i % 6;
+                })
+                .on('filtered', function (chart, filter) {
+                    var filters = {}
+                    filters[t('Cluster')] = cluster_chart.filters();
+                    updateFilters(filters)
+                })
+                .xAxis().ticks(4)
 
             agency_chart.width(300)
-                    .height(450)
-                    .margins({top: 10, right: 10, bottom: 40, left: 40})
-                    .dimension(cf.agency)
-                    .group(agency)
-                    .elasticX(true)
-                    .data(function(group) {
-                        return group.top(20);
-                    })
-                    .colors(['#026CB6'])
-                    .colorDomain([0,1])
-                    .colorAccessor(function(d, i){return i%1;})
-                    .on('filtered', function(chart, filter) {
-                        var filters = {};
-                        filters[t('Agency')] = agency_chart.filters();
-                        updateFilters(filters)
-                    })
-                    .xAxis().ticks(4);
+                .height(450)
+                .margins({top: 10, right: 10, bottom: 40, left: 40})
+                .dimension(cf.agency)
+                .group(agency)
+                .elasticX(true)
+                .data(function (group) {
+                    return group.top(20);
+                })
+                .colors(['#026CB6'])
+                .colorDomain([0, 1])
+                .colorAccessor(function (d, i) {
+                    return i % 1;
+                })
+                .on('filtered', function (chart, filter) {
+                    var filters = {};
+                    filters[t('Agency')] = agency_chart.filters();
+                    updateFilters(filters)
+                })
+                .xAxis().ticks(4);
 
 
             partner_chart.width(300)
-                    .height(450)
-                    .margins({top: 10, right: 10, bottom: 40, left: 40})
-                    .dimension(cf.partner)
-                    .group(partner)
-                    .data(function(group) {console.dir(group); return group.all()})
-                    .elasticX(true)
-                    .data(function(group) {
-                        return group.top(Infinity).filter(function(element) {return !!element.key}).slice(0,20)
-                    })
-                    .colors(['#026CB6'])
-                    .colorDomain([0,1])
-                    .colorAccessor(function(d, i){return i%1;})
-                    .on('filtered', function(chart, filter) {
-                        var filters = {}
-                        filters[t('Partner')] = partner_chart.filters()
-                        updateFilters(filters)
-                    })
-                    .xAxis().ticks(4)
+                .height(450)
+                .margins({top: 10, right: 10, bottom: 40, left: 40})
+                .dimension(cf.partner)
+                .group(partner)
+                .data(function (group) {
+                    console.dir(group);
+                    return group.all()
+                })
+                .elasticX(true)
+                .data(function (group) {
+                    return group.top(Infinity).filter(function (element) {
+                        return !!element.key
+                    }).slice(0, 20)
+                })
+                .colors(['#026CB6'])
+                .colorDomain([0, 1])
+                .colorAccessor(function (d, i) {
+                    return i % 1;
+                })
+                .on('filtered', function (chart, filter) {
+                    var filters = {}
+                    filters[t('Partner')] = partner_chart.filters()
+                    updateFilters(filters)
+                })
+                .xAxis().ticks(4);
 
             status_chart.width(300)
-                    .height(350)
-                    .margins({top: 10, right: 10, bottom: 35, left: 40})
-                    .dimension(cf.status)
-                    .group(status)
-                    .transitionDuration(500)
-                    .centerBar(false)
-                    .gap(40) // 65 = norm
-                    .colors("#026CB6")
-                    .x(d3.scale.ordinal().domain(["Completed", "Ongoing", "Planned", "Suspended"]))
-                    .xUnits(dc.units.ordinal)
-                    .elasticY(true)
-                    .xAxisLabel(t('Status'))
-                    .yAxisLabel(t('# of activities by status'))
-                    .on('filtered', function(chart, filter) {
-                        var filters = {}
-                        filters[t('Status')] = status_chart.filters()
-                        updateFilters(filters)
-                    })
-                    .xAxis().tickFormat()
+                .height(350)
+                .margins({top: 10, right: 10, bottom: 35, left: 40})
+                .dimension(cf.status)
+                .group(status)
+                .transitionDuration(500)
+                .centerBar(false)
+                .gap(40) // 65 = norm
+                .colors("#026CB6")
+                .x(d3.scale.ordinal().domain(["Completed", "Ongoing", "Planned", "Suspended"]))
+                .xUnits(dc.units.ordinal)
+                .elasticY(true)
+                .xAxisLabel(t('Status'))
+                .yAxisLabel(t('# of activities by status'))
+                .on('filtered', function (chart, filter) {
+                    var filters = {};
+                    filters[t('Status')] = status_chart.filters();
+                    updateFilters(filters)
+                })
+                .xAxis().tickFormat()
 
             area_chart.width(300)
-                    .height(350)
-                    .margins({top: 10, right: 10, bottom: 35, left: 40})
-                    .dimension(cf.area)
-                    .group(area)
-                    .transitionDuration(500)
-                    .centerBar(false)
-                    .gap(40)  // 65 = norm
-                    .colors("#026CB6")
-                    .x(d3.scale.ordinal().domain(["GCA", "NGCA", t('Not specified')]))
-                    .xUnits(dc.units.ordinal)
-                    .elasticY(true)
-                    .xAxisLabel(t('Area type'))
-                    .yAxisLabel(t('# of activities by area'))
-                    .on('filtered', function(chart, filter) {
-                        var filters = {};
-                        filters[t('Area')] = area_chart.filters();
-                        updateFilters(filters);
-                    })
-                    .xAxis().tickFormat();
+                .height(350)
+                .margins({top: 10, right: 10, bottom: 35, left: 40})
+                .dimension(cf.area)
+                .group(area)
+                .transitionDuration(500)
+                .centerBar(false)
+                .gap(40)  // 65 = norm
+                .colors("#026CB6")
+                .x(d3.scale.ordinal().domain(["GCA", "NGCA", t('Not specified')]))
+                .xUnits(dc.units.ordinal)
+                .elasticY(true)
+                .xAxisLabel(t('Area type'))
+                .yAxisLabel(t('# of activities by area'))
+                .on('filtered', function (chart, filter) {
+                    var filters = {};
+                    filters[t('Area')] = area_chart.filters();
+                    updateFilters(filters);
+                })
+                .xAxis().tickFormat();
 
 
             activity_chart.width(300).height(activity.size() * 20 + 55)
-                    .margins({top: 10, left: 10, right: 40, bottom: 40})
-                    .dimension(cf.activity)
-                    .group(activity)
-                    .ordering(function(d){ return -d.value })
-                    .elasticX(true)
-                    .colors(['#026CB6'])
-                    .colorDomain([0,8])
-                    .colorAccessor(function(d, i){return i%8;})
-                    .on('filtered', function(chart, filter) {
-                        var filters = {}
-                        filters[t('Activity')] = activity_chart.filters()
-                        updateFilters(filters)
-                    })
-                    .xAxis().ticks(4)
+                .margins({top: 10, left: 10, right: 40, bottom: 40})
+                .dimension(cf.activity)
+                .group(activity)
+                .ordering(function (d) {
+                    return -d.value
+                })
+                .elasticX(true)
+                .colors(['#026CB6'])
+                .colorDomain([0, 8])
+                .colorAccessor(function (d, i) {
+                    return i % 8;
+                })
+                .on('filtered', function (chart, filter) {
+                    var filters = {}
+                    filters[t('Activity')] = activity_chart.filters()
+                    updateFilters(filters)
+                })
+                .xAxis().ticks(4)
 
             oblast_chart.width(300).height(500)
-                    .margins({top: 10, left: 10, right: 40, bottom: 40})
-                    .dimension(cf.oblast)
-                    .group(oblast)
-                    .elasticX(true)
-                    .data(function(group) {
-                        return group.top(28);
-                    })
-                    .colors(['#026CB6'])
-                    .colorDomain([0,6])
-                    .colorAccessor(function(d, i){return i%6;})
-                    .on('filtered', function(chart, filter) {
-                        var filters = {}
-                        filters['Oblast'] = oblast_chart.filters()
-                        updateFilters(filters)
-                    })
-                    .xAxis().ticks(4)
+                .margins({top: 10, left: 10, right: 40, bottom: 40})
+                .dimension(cf.oblast)
+                .group(oblast)
+                .elasticX(true)
+                .data(function (group) {
+                    return group.top(28);
+                })
+                .colors(['#026CB6'])
+                .colorDomain([0, 6])
+                .colorAccessor(function (d, i) {
+                    return i % 6;
+                })
+                .on('filtered', function (chart, filter) {
+                    var filters = {}
+                    filters['Oblast'] = oblast_chart.filters()
+                    updateFilters(filters)
+                })
+                .xAxis().ticks(4)
 
             startChart.width(350)
-                    .height(220)
-                    .margins({top: 30, right: 10, bottom: 40, left: 40})
-                    .dimension(cf.start)
-                    .group(startGroup)
-                    .transitionDuration(500)
-                    .centerBar(true)
-                    .colors("#026CB6")
-                    .gap(65)
-                    .x(d3.time.scale().domain([new Date(2013, 12, 1), new Date(2016, 6, 1)]))
-                    .elasticY(true)
-                    .xAxisLabel(t('Date'))
-                    .yAxisLabel(t('# of activities by date'))
-                    .on('filtered', function(event, filter) {
-                        var res = filter
+                .height(220)
+                .margins({top: 30, right: 10, bottom: 40, left: 40})
+                .dimension(cf.start)
+                .group(startGroup)
+                .transitionDuration(500)
+                .centerBar(true)
+                .colors("#026CB6")
+                .gap(65)
+                .x(d3.time.scale().domain([new Date(2013, 12, 1), new Date(2016, 6, 1)]))
+                .elasticY(true)
+                .xAxisLabel(t('Date'))
+                .yAxisLabel(t('# of activities by date'))
+                .on('filtered', function (event, filter) {
+                    var res = filter
 
-                        if(res && res.length > 0) {
-                            res = [dateFormat(res[0]) + " - " + dateFormat(res[1])]
-                        }
-                        var filters = {};
-                        filters[t('Start')] = res;
-                        updateFilters(filters)
-                    })
-                    .xAxis().ticks(4);
+                    if (res && res.length > 0) {
+                        res = [dateFormat(res[0]) + " - " + dateFormat(res[1])]
+                    }
+                    var filters = {};
+                    filters[t('Start')] = res;
+                    updateFilters(filters)
+                })
+                .xAxis().ticks(4);
 
             dataasofChart.width(350)
-                    .height(220)
-                    .margins({top: 30, right: 10, bottom: 40, left: 40})
-                    .dimension(cf.dataasof)
-                    .group(dataasofGroup)
-                    .transitionDuration(500)
-                    .centerBar(false)
-                    .colors("#026CB6")
-                    .gap(50)
-                    .x(d3.scale.ordinal())
-                    .xUnits(dc.units.ordinal)
-                    .elasticY(true)
-                    .xAxisLabel(t('Month'))
-                    .yAxisLabel(t('# of activities by date'))
-                    .on('filtered', function(chart, filter) {
-                        var filters = {};
-                        filters[t('Data As Of')] = dataasofChart.filters();
-                        updateFilters(filters)
-                    })
-                    .xAxis().tickFormat();
+                .height(220)
+                .margins({top: 30, right: 10, bottom: 40, left: 40})
+                .dimension(cf.dataasof)
+                .group(dataasofGroup)
+                .transitionDuration(500)
+                .centerBar(false)
+                .colors("#026CB6")
+                .gap(50)
+                .x(d3.scale.ordinal())
+                .xUnits(dc.units.ordinal)
+                .elasticY(true)
+                .xAxisLabel(t('Month'))
+                .yAxisLabel(t('# of activities by date'))
+                .on('filtered', function (chart, filter) {
+                    var filters = {};
+                    filters[t('Data As Of')] = dataasofChart.filters();
+                    updateFilters(filters)
+                })
+                .xAxis().tickFormat();
 
             dc.dataCount("#count-info")
-                    .dimension(cf)
-                    .group(all);
+                .dimension(cf)
+                .group(all);
 
             dc.renderAll();
 
@@ -586,35 +653,32 @@
             g7.append("text").attr("class", "x-axis-label").attr("text-anchor", "middle").attr("x", 160).attr("y", 340).text(t('# of activities reported'))
 
 
-
-
-
             {
                 var mapSVG = d3.select("#map svg")
-                        , container = mapSVG.append("g")
+                    , container = mapSVG.append("g")
 
                 var color = "#e01f22";
 
                 mapSVG
-                        .append("defs")
-                        .append("pattern")
-                        .attr("id", "diagonalHatch")
-                        .attr("patternUnits", "userSpaceOnUse")
-                        .attr("width", 5)
-                        .attr("height", 5)
-                        .append("path")
-                        .attr("d", "M -1,1 l 2,-2    M 0,5 l 5,-5    M 4,6 l 2,-2")
-                        .attr("stroke", color)
-                        .attr("stroke-width", 1);
+                    .append("defs")
+                    .append("pattern")
+                    .attr("id", "diagonalHatch")
+                    .attr("patternUnits", "userSpaceOnUse")
+                    .attr("width", 5)
+                    .attr("height", 5)
+                    .append("path")
+                    .attr("d", "M -1,1 l 2,-2    M 0,5 l 5,-5    M 4,6 l 2,-2")
+                    .attr("stroke", color)
+                    .attr("stroke-width", 1);
 
                 container.selectAll("path")
-                        .data(NGCABoundaries.features)
-                        .enter().append("path")
-                        .attr("d", d3.geo.path().projection(projection))
-                        .attr("fill", "url(#diagonalHatch)")
-                        .attr("stroke", color)
-                        .attr("stroke-width", "1px")
-                        .attr("pointer-events", "none")
+                    .data(NGCABoundaries.features)
+                    .enter().append("path")
+                    .attr("d", d3.geo.path().projection(projection))
+                    .attr("fill", "url(#diagonalHatch)")
+                    .attr("stroke", color)
+                    .attr("stroke-width", "1px")
+                    .attr("pointer-events", "none")
             }
 
 
@@ -623,66 +687,166 @@
 
 
                 var legendDataset = [
-                    {x: 15, y: 280, type: "title", text: t('Number of activities') }
-                    , {x: 15, y: 300, type: "label", width: 30, height: 14, spacing: 5, fill: "#C6DBEF", text:"0-250"}
-                    , {x: 15, y: 320, type: "label", width: 30, height: 14, spacing: 5, fill: "#9ECAE1", text:"251-500"}
-                    , {x: 15, y: 340, type: "label", width: 30, height: 14, spacing: 5, fill: "#6BAEF1", text:"501-1000"}
-                    , {x: 15, y: 360, type: "label", width: 30, height: 14, spacing: 5, fill: "#4292C6", text:"1001-2000"}
-                    , {x: 15, y: 380, type: "label", width: 30, height: 14, spacing: 5, fill: "#2171B5", text:"2001-4000"}
-                    , {x: 15, y: 400, type: "label", width: 30, height: 14, spacing: 5, fill: "#084594", text:"> 4000"}
-                    , {x: 15, y: 421, type: "divider", width: 110, height: 1, fill: "#cccccc"}
-                    , {x: 15.5, y: 430.5, type: "label", width: 29, height: 13, spacing: 5, fill: "url('#diagonalHatch')", text:"NGCA", stroke: "#e01f22"}
+                    {
+                        x: 15,
+                        y: 280,
+                        type: "title",
+                        text: t('Number of activities')
+                    }
+                    ,
+                    {
+                        x: 15,
+                        y: 300,
+                        type: "label",
+                        width: 30,
+                        height: 14,
+                        spacing: 5,
+                        fill: "#C6DBEF",
+                        text: "0-250"
+                    }
+                    ,
+                    {
+                        x: 15,
+                        y: 320,
+                        type: "label",
+                        width: 30,
+                        height: 14,
+                        spacing: 5,
+                        fill: "#9ECAE1",
+                        text: "251-500"
+                    }
+                    ,
+                    {
+                        x: 15,
+                        y: 340,
+                        type: "label",
+                        width: 30,
+                        height: 14,
+                        spacing: 5,
+                        fill: "#6BAEF1",
+                        text: "501-1000"
+                    }
+                    ,
+                    {
+                        x: 15,
+                        y: 360,
+                        type: "label",
+                        width: 30,
+                        height: 14,
+                        spacing: 5,
+                        fill: "#4292C6",
+                        text: "1001-2000"
+                    }
+                    ,
+                    {
+                        x: 15,
+                        y: 380,
+                        type: "label",
+                        width: 30,
+                        height: 14,
+                        spacing: 5,
+                        fill: "#2171B5",
+                        text: "2001-4000"
+                    }
+                    ,
+                    {
+                        x: 15,
+                        y: 400,
+                        type: "label",
+                        width: 30,
+                        height: 14,
+                        spacing: 5,
+                        fill: "#084594",
+                        text: "> 4000"
+                    }
+                    ,
+                    {
+                        x: 15,
+                        y: 421,
+                        type: "divider",
+                        width: 110,
+                        height: 1,
+                        fill: "#cccccc"
+                    }
+                    ,
+                    {
+                        x: 15.5,
+                        y: 430.5,
+                        type: "label",
+                        width: 29,
+                        height: 13,
+                        spacing: 5,
+                        fill: "url('#diagonalHatch')",
+                        text: "NGCA",
+                        stroke: "#e01f22"
+                    }
                 ];
 
 
                 legend.selectAll("text")
-                        .data(legendDataset.filter(function(d) { return d.type == "title" || d.type == "label" }))
-                        .enter()
-                        .append("text")
-                        .attr("font-size", "12px")
-                        .attr("stroke", "#555555")
-                        .attr("dominant-baseline", "text-before-edge")
-                        .text(function(d) { return d.text })
-                        .attr("x", function(d) {
-                            return d.type == "label" ? d.x + d.width + d.spacing : d.x;
-                        })
-                        .attr("y", function(d) { return d.y })
+                    .data(legendDataset.filter(function (d) {
+                        return d.type == "title" || d.type == "label"
+                    }))
+                    .enter()
+                    .append("text")
+                    .attr("font-size", "12px")
+                    .attr("stroke", "#555555")
+                    .attr("dominant-baseline", "text-before-edge")
+                    .text(function (d) {
+                        return d.text
+                    })
+                    .attr("x", function (d) {
+                        return d.type == "label" ? d.x + d.width + d.spacing : d.x;
+                    })
+                    .attr("y", function (d) {
+                        return d.y
+                    })
 
                 legend.selectAll("rect")
-                        .data(legendDataset.filter(function(d) { return d.type == "label" || d.type == "divider" }))
-                        .enter()
-                        .append("rect")
-                        .attr("x", function(d) { return d.x })
-                        .attr("y", function(d) { return d.y })
-                        .attr("width", function(d) { return d.width })
-                        .attr("height", function(d) { return d.height })
-                        .attr("style", function(d) {
-                            var res = [
-                                'fill:' + d.fill
-                            ]
+                    .data(legendDataset.filter(function (d) {
+                        return d.type == "label" || d.type == "divider"
+                    }))
+                    .enter()
+                    .append("rect")
+                    .attr("x", function (d) {
+                        return d.x
+                    })
+                    .attr("y", function (d) {
+                        return d.y
+                    })
+                    .attr("width", function (d) {
+                        return d.width
+                    })
+                    .attr("height", function (d) {
+                        return d.height
+                    })
+                    .attr("style", function (d) {
+                        var res = [
+                            'fill:' + d.fill
+                        ]
 
-                            if(d.stroke) {
-                                res.push("stroke:" + d.stroke)
-                                res.push("stroke-width: 1px")
-                                res.push("stroke-style: solid")
-                            }
+                        if (d.stroke) {
+                            res.push("stroke:" + d.stroke)
+                            res.push("stroke-width: 1px")
+                            res.push("stroke-style: solid")
+                        }
 
-                            return res.join(';')
-                        })
+                        return res.join(';')
+                    })
             }
 
             {
                 // draw border of sevastopol and AR Krym separately
                 d3.select('#map svg').append('g')
-                        .selectAll('path')
-                        .data(adm1.features.filter(function(feature) {
-                            return feature.properties.KOATUU == "8500000000" || feature.properties.KOATUU == "0100000000"
-                        }))
-                        .enter().append("path")
-                        .attr("d", d3.geo.path().projection(projection))
-                        .attr("fill", "none")
-                        .attr("stroke", '#000000')
-                        .attr("stroke-width", "1px")
+                    .selectAll('path')
+                    .data(adm1.features.filter(function (feature) {
+                        return feature.properties.KOATUU == "8500000000" || feature.properties.KOATUU == "0100000000"
+                    }))
+                    .enter().append("path")
+                    .attr("d", d3.geo.path().projection(projection))
+                    .attr("fill", "none")
+                    .attr("stroke", '#000000')
+                    .attr("stroke-width", "1px")
                 change2region();
             }
 
@@ -691,15 +855,17 @@
 
                 var all = dc.chartRegistry.list();
 
-                mapChart.onClick = function(datum, layerIndex) {
+                mapChart.onClick = function (datum, layerIndex) {
                     var selectedRegion = mapChart.geoJsons()[layerIndex].keyAccessor(datum);
                     oblast_chart.filter(selectedRegion);
                     mapChart.redrawGroup()
                 };
 
-                mapChart.hasFilter = function(filter) {
+                mapChart.hasFilter = function (filter) {
                     var filters = oblast_chart.filters();
-                    if(!filter) { return filters.length > 0}
+                    if (!filter) {
+                        return filters.length > 0
+                    }
                     return filters.indexOf(filter) != -1
                 }
             }
@@ -708,10 +874,11 @@
 
     </script>
     {% comment %}<script src="{% static 'js/saveData.js' %}"></script>{% endcomment %}
+
     <script type="text/javascript">
         var Charts = {
 
-            'Data As Of' : dataasofChart,
+            'Data As Of': dataasofChart,
             'Activity': activity_chart,
             'Agency': agency_chart,
             'Area': area_chart,
@@ -723,9 +890,9 @@
             'Status': status_chart
         };
         var Columns = {
-            'Date' : 'date',
-            'cluster_name' : 'cluster_name',
-            'org_name' : 'org_name',
+            'Date': 'date',
+            'cluster_name': 'cluster_name',
+            'org_name': 'org_name',
             'partner #1_name': 'partner1_name',
             'partner #2_name': 'partner2_name',
             'ADMIN1_ID': 'admin1_id',
@@ -742,18 +909,17 @@
         };
 
         /*for (column in Columns) {
-            console.log(Columns[column])
+         console.log(Columns[column])
 
-        };*/
+         };*/
 
-        $('button.reset').on('click', function(e) {
+        $('button.reset').on('click', function (e) {
             ResetAll();
         });
 
-        $('button.save-data').on('click', function(e) {
+        $('button.save-data').on('click', function (e) {
             saveData();
         });
-
 
 
     </script>

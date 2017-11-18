@@ -1,4 +1,4 @@
-/*global _actions_icnt, gettext, interpolate, ngettext*/
+/*global gettext, interpolate, ngettext*/
 (function($) {
     'use strict';
     var lastChecked;
@@ -41,12 +41,13 @@
         },
         updateCounter = function() {
             var sel = $(actionCheckboxes).filter(":checked").length;
-            // _actions_icnt is defined in the generated HTML
+            // data-actions-icnt is defined in the generated HTML
             // and contains the total amount of objects in the queryset
+            var actions_icnt = $('.action-counter').data('actionsIcnt');
             $(options.counterContainer).html(interpolate(
             ngettext('%(sel)s of %(cnt)s selected', '%(sel)s of %(cnt)s selected', sel), {
                 sel: sel,
-                cnt: _actions_icnt
+                cnt: actions_icnt
             }, true));
             $(options.allToggle).prop("checked", function() {
                 var value;
@@ -134,13 +135,20 @@
     };
     /* Setup plugin defaults */
     $.fn.actions.defaults = {
-        actionContainer: "div.actions",
-        counterContainer: "span.action-counter",
-        allContainer: "div.actions span.all",
-        acrossInput: "div.actions input.select-across",
-        acrossQuestions: "div.actions span.question",
-        acrossClears: "div.actions span.clear",
+        actionContainer: "div.grp-changelist-actions",
+        counterContainer: "li.grp-action-counter span.grp-action-counter",
+        allContainer: "div.grp-changelist-actions li.grp-all",
+        acrossInput: "div.grp-changelist-actions input.select-across",
+        acrossQuestions: "div.grp-changelist-actions li.grp-question",
+        acrossClears: "div.grp-changelist-actions li.grp-clear-selection",
         allToggle: "#action-toggle",
-        selectedClass: "selected"
+        actionSelect: "div.grp-changelist-actions select",
+        selectedClass: "grp-selected"
     };
-})(django.jQuery);
+    $(document).ready(function() {
+        var $actionsEls = $('tr input.action-select');
+        if ($actionsEls.length > 0) {
+            $actionsEls.actions();
+        }
+    });
+})(grp.jQuery);
