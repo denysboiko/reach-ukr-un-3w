@@ -118,8 +118,17 @@ elif 'LOCAL_ENV' in os.environ:
             'PORT': '5432',
         }
     }
-# else:
-
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': '3W_DB',
+            'USER': '',
+            'PASSWORD': '',
+            'HOST': '127.0.0.1',
+            'PORT': '5432',
+        }
+    }
 
 
 # Password validation
